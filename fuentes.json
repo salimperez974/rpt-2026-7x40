@@ -1,0 +1,200 @@
+{
+  "descripcion": "Lista viva de fuentes para el reporte semanal. Cowork puede añadir nuevas fuentes que descubra durante sus búsquedas si aportan valor consistente. Cada fuente tiene un score de utilidad que se actualiza con el tiempo.",
+  "ultima_actualizacion": "2026-04-08",
+  "criterios_nueva_fuente": "Para añadir una fuente nueva: (1) debe haber proporcionado ≥1 noticia relevante para oftalmología/iOPR, (2) debe ser verificable y de reputación, (3) debe cubrir un ángulo no cubierto por fuentes existentes o ser mejor que una existente en su área.",
+  "fuentes_primarias": [
+    {
+      "nombre": "Ophthalmology Times",
+      "url": "https://www.ophthalmologytimes.com",
+      "tipo": "industria",
+      "cobertura": "noticias clínicas, pipeline, congresos",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 10,
+      "notas": "Fuente #1 para noticias de industria oftalmológica"
+    },
+    {
+      "nombre": "EyeWorld (ASCRS)",
+      "url": "https://www.eyeworld.org",
+      "tipo": "industria",
+      "cobertura": "cirugía, cataratas, refractiva, congresos ASCRS",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 9,
+      "notas": "Excelente para cobertura ASCRS y cirugía"
+    },
+    {
+      "nombre": "Review of Ophthalmology",
+      "url": "https://www.reviewofophthalmology.com",
+      "tipo": "industria",
+      "cobertura": "pipeline, glaucoma, retina, práctica",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 9
+    },
+    {
+      "nombre": "Retinal Physician",
+      "url": "https://www.retinalphysician.com",
+      "tipo": "industria",
+      "cobertura": "retina, ensayos clínicos, anti-VEGF",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 8
+    },
+    {
+      "nombre": "Modern Retina",
+      "url": "https://www.modernretina.com",
+      "tipo": "industria",
+      "cobertura": "retina, tendencias",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 7
+    },
+    {
+      "nombre": "Ophthalmology Advisor",
+      "url": "https://www.ophthalmologyadvisor.com",
+      "tipo": "industria",
+      "cobertura": "FDA, aprobaciones, pipeline",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 8
+    },
+    {
+      "nombre": "Eyes on Eyecare / Glance",
+      "url": "https://glance.eyesoneyecare.com",
+      "tipo": "industria",
+      "cobertura": "tendencias, práctica, mercado",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 7
+    },
+    {
+      "nombre": "Ophthalmology Management",
+      "url": "https://ophthalmologymanagement.com",
+      "tipo": "industria",
+      "cobertura": "negocio, reembolso, práctica",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 7
+    },
+    {
+      "nombre": "Healio Ophthalmology",
+      "url": "https://www.healio.com/news/ophthalmology",
+      "tipo": "industria",
+      "cobertura": "noticias, congresos, calendario",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 8
+    },
+    {
+      "nombre": "MedicalXpress (Eye)",
+      "url": "https://medicalxpress.com",
+      "tipo": "ciencia",
+      "cobertura": "investigación, IA, tecnología",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 7
+    },
+    {
+      "nombre": "Diabetes In Control",
+      "url": "https://www.diabetesincontrol.com",
+      "tipo": "ciencia",
+      "cobertura": "RD, diabetes, screening",
+      "frecuencia_consulta": "quincenal",
+      "score_utilidad": 6
+    }
+  ],
+  "fuentes_cientificas": [
+    {
+      "nombre": "PubMed / PMC",
+      "url": "https://pubmed.ncbi.nlm.nih.gov",
+      "tipo": "journal",
+      "cobertura": "artículos peer-reviewed, revisiones",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 10,
+      "busquedas_sugeridas": ["ophthalmology AI", "glaucoma Hispanic", "diabetic retinopathy screening", "gene therapy eye", "myopia control"]
+    },
+    {
+      "nombre": "Scientific Reports (Nature)",
+      "url": "https://www.nature.com/srep",
+      "tipo": "journal",
+      "cobertura": "estudios clínicos, miopía, córnea",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 8
+    },
+    {
+      "nombre": "Ophthalmology Science (AAO)",
+      "url": "https://www.ophthalmologyscience.org",
+      "tipo": "journal",
+      "cobertura": "ciencia traslacional, IA, clinical trials",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 9
+    },
+    {
+      "nombre": "Eye (Nature)",
+      "url": "https://www.nature.com/eye",
+      "tipo": "journal",
+      "cobertura": "neuro-oftalmología, investigación clínica",
+      "frecuencia_consulta": "quincenal",
+      "score_utilidad": 8
+    },
+    {
+      "nombre": "MDPI / JCM",
+      "url": "https://www.mdpi.com",
+      "tipo": "journal",
+      "cobertura": "revisiones, miopía, salud pública",
+      "frecuencia_consulta": "quincenal",
+      "score_utilidad": 6
+    }
+  ],
+  "fuentes_corporativas": [
+    {
+      "nombre": "PR Newswire / BusinessWire / GlobeNewswire",
+      "url": "https://www.prnewswire.com",
+      "tipo": "comunicados",
+      "cobertura": "aprobaciones FDA, resultados trials, lanzamientos",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 9,
+      "busquedas_sugeridas": ["ophthalmology FDA", "eye disease approval", "ophthalmic clinical trial results"]
+    },
+    {
+      "nombre": "ClinicalTrials.gov",
+      "url": "https://clinicaltrials.gov",
+      "tipo": "regulatorio",
+      "cobertura": "ensayos activos, reclutamiento PR",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 10
+    },
+    {
+      "nombre": "FDA.gov (Ophthalmics)",
+      "url": "https://www.fda.gov",
+      "tipo": "regulatorio",
+      "cobertura": "aprobaciones, CRL, advisory committees",
+      "frecuencia_consulta": "semanal",
+      "score_utilidad": 10
+    }
+  ],
+  "fuentes_mercado": [
+    {
+      "nombre": "Business Research Insights",
+      "url": "https://www.businessresearchinsights.com",
+      "tipo": "mercado",
+      "cobertura": "sizing, CAGR, proyecciones",
+      "frecuencia_consulta": "mensual",
+      "score_utilidad": 6
+    },
+    {
+      "nombre": "Towards Healthcare",
+      "url": "https://www.towardshealthcare.com",
+      "tipo": "mercado",
+      "cobertura": "IA en salud, mercado oftalmológico",
+      "frecuencia_consulta": "mensual",
+      "score_utilidad": 6
+    },
+    {
+      "nombre": "Stout / FOCUS Investment Banking",
+      "url": "https://www.stout.com",
+      "tipo": "M&A",
+      "cobertura": "transacciones PE, valuaciones",
+      "frecuencia_consulta": "mensual",
+      "score_utilidad": 7
+    }
+  ],
+  "fuentes_descubiertas": [],
+  "log_cambios": [
+    {
+      "fecha": "2026-04-08",
+      "accion": "Creación inicial de lista de fuentes basada en reporte W15"
+    }
+  ]
+}

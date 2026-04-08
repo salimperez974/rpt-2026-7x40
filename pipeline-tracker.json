@@ -1,0 +1,151 @@
+{
+  "descripcion": "Tracker fijo de items en pipeline, congresos y temas recurrentes. Se actualiza semanalmente con status actual. Solo aparecen en el reporte si hay un UPDATE nuevo esa semana. Siempre se incluye como tab dedicado 'Pipeline Tracker' en el reporte.",
+  "ultima_actualizacion": "2026-04-08",
+  "pipeline_farmacos": [
+    {
+      "nombre": "Veligrotug (Viridian)",
+      "indicacion": "Enfermedad Tiroidea Ocular (TED)",
+      "fase": "BLA bajo revisión - Priority Review",
+      "fecha_clave": "PDUFA 30 junio 2026",
+      "status": "En espera de decisión FDA",
+      "ultima_noticia": "2026-W15: BLA aceptado con Breakthrough Therapy Designation",
+      "relevancia_iopr": "Alta - población tiroidea hispana subdiagnosticada"
+    },
+    {
+      "nombre": "Elegrobart (Viridian)",
+      "indicacion": "TED Activo",
+      "fase": "Fase 3 completada (REVEAL-1)",
+      "fecha_clave": "BLA previsto Q1 2027",
+      "status": "Resultados positivos marzo 2026",
+      "ultima_noticia": "2026-W15: REVEAL-1 positiva, 63% proptosis responder rate",
+      "relevancia_iopr": "Media"
+    },
+    {
+      "nombre": "Privosegtor / OCS-05 (Oculis)",
+      "indicacion": "Neuritis Óptica",
+      "fase": "Fase 3 (PIONEER-2 iniciando H1 2026)",
+      "fecha_clave": "PIONEER-2 H1 2026, PIONEER-3 mid-2026",
+      "status": "Breakthrough Designation otorgado",
+      "ultima_noticia": "2026-W15: Fase 2 ACUITY +18 letras ETDRS",
+      "relevancia_iopr": "Alta - oportunidad IIT como sitio"
+    },
+    {
+      "nombre": "OCU410 (Ocugen)",
+      "indicacion": "Atrofia Geográfica AMD",
+      "fase": "Fase 2",
+      "fecha_clave": "Datos 12M positivos enero 2026",
+      "status": "Reclutando",
+      "ultima_noticia": "2026-W15: Datos preliminares positivos a 12 meses",
+      "relevancia_iopr": "Media"
+    },
+    {
+      "nombre": "OPGx-BEST1 (Opus Genetics)",
+      "indicacion": "Bestrophinopatía",
+      "fase": "Fase 1/2",
+      "fecha_clave": "Datos 3M febrero 2026",
+      "status": "Resultados positivos +12 letras BCVA",
+      "ultima_noticia": "2026-W15: +12 letras BCVA a 3 meses",
+      "relevancia_iopr": "Media - familias hispanas caribeñas"
+    },
+    {
+      "nombre": "GenEditBio CRISPR (CLARITY)",
+      "indicacion": "Distrofia corneal TGFBI",
+      "fase": "Fase 1/2",
+      "fecha_clave": "IND clearance enero 2026",
+      "status": "Reclutando",
+      "ultima_noticia": "2026-W15: Primer CRISPR in vivo para córnea",
+      "relevancia_iopr": "Media - oportunidad IIT"
+    },
+    {
+      "nombre": "KSI-301 / Tarcocimab (Kodiak)",
+      "indicacion": "Retinopatía Diabética",
+      "fase": "Fase 3 (GLOW1)",
+      "fecha_clave": "Resultados 48 semanas disponibles",
+      "status": "41.1% mejoran ≥2 escalones DRSS",
+      "ultima_noticia": "2026-W15: GLOW1 datos 48 semanas",
+      "relevancia_iopr": "Alta - 19K pacientes DM"
+    },
+    {
+      "nombre": "Qlaris + Latanoprost",
+      "indicacion": "Glaucoma",
+      "fase": "Fase 3 (FIRECREST)",
+      "fecha_clave": "Resultados esperados final 2026",
+      "status": "Reclutando",
+      "ultima_noticia": "2026-W15: Avanzando a Fase 3 FIRECREST",
+      "relevancia_iopr": "Media"
+    },
+    {
+      "nombre": "Brimochol PF (Tenpoint)",
+      "indicacion": "Presbiopía",
+      "fase": "NDA bajo revisión",
+      "fecha_clave": "PDUFA enero 2026",
+      "status": "En espera de decisión FDA",
+      "ultima_noticia": "2026-W15: Pendiente decisión",
+      "relevancia_iopr": "Media-Alta - pacientes >45 años"
+    },
+    {
+      "nombre": "Epioxa (Glaukos)",
+      "indicacion": "Queratocono - CXL epi-on",
+      "fase": "APROBADO FDA",
+      "fecha_clave": "Disponible Q1 2026",
+      "status": "Comercializado",
+      "ultima_noticia": "2026-W15: Lanzamiento comercial + presentación ASCRS",
+      "relevancia_iopr": "Alta - práctica corneal alto volumen"
+    },
+    {
+      "nombre": "iDose TR (Glaukos)",
+      "indicacion": "Glaucoma - implante travoprost",
+      "fase": "APROBADO FDA (re-administración)",
+      "fecha_clave": "sNDA aprobado enero 2026",
+      "status": "Comercializado con re-administración",
+      "ultima_noticia": "2026-W15: Sin pérdida endotelial corneal a 3 años",
+      "relevancia_iopr": "Alta - oportunidad IIT"
+    }
+  ],
+  "congresos_proximos": [
+    {
+      "nombre": "ASCRS 2026",
+      "fecha": "10-13 Abril 2026",
+      "lugar": "Washington D.C.",
+      "status": "ESTA SEMANA",
+      "cubierto_en": ["2026-W15"]
+    },
+    {
+      "nombre": "ARVO 2026",
+      "fecha": "Mayo 2026",
+      "lugar": "Salt Lake City",
+      "status": "Próximo",
+      "deadline_abstracts": "~Mayo 2026"
+    },
+    {
+      "nombre": "WOC 2026",
+      "fecha": "26-29 Junio 2026",
+      "lugar": "Praga",
+      "status": "Próximo"
+    },
+    {
+      "nombre": "AAO 2026",
+      "fecha": "9-12 Octubre 2026",
+      "lugar": "Nueva Orleans",
+      "status": "Registrarse",
+      "deadline_abstracts": "~Mayo 2026"
+    }
+  ],
+  "temas_recurrentes": [
+    {
+      "tema": "IA en tamizaje RD",
+      "ultima_cobertura": "2026-W15",
+      "nota": "Solo incluir si hay nuevo estudio, aprobación o dato"
+    },
+    {
+      "tema": "PE/M&A en oftalmología",
+      "ultima_cobertura": "2026-W15",
+      "nota": "Solo incluir si hay nueva transacción o dato de mercado"
+    },
+    {
+      "tema": "Control de miopía pediátrica",
+      "ultima_cobertura": "2026-W15",
+      "nota": "Solo incluir si hay nuevo trial o guía"
+    }
+  ]
+}

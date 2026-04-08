@@ -1,0 +1,62 @@
+{
+  "descripcion": "Registro de temas cubiertos por semana para evitar redundancia entre reportes. Cowork debe leer este archivo ANTES de generar cada reporte nuevo y actualizarlo DESPUÉS.",
+  "semanas": [
+    {
+      "semana": "2026-W15",
+      "fecha": "2026-04-06",
+      "archivo": "reportes/2026-W15.html",
+      "noticias_cubiertas": [
+        "ASCRS 2026 Washington DC (10-13 Abril)",
+        "Chatbot AI multilingüe detección desprendimiento retina (Moorfields)",
+        "Amaros Interventional Glaucoma Network + AmarosEngine AI",
+        "ZEISS VisioGen IA engagement pacientes ASCRS 2026",
+        "ZEISS AI IOL Calculator post-LVC y tóricos",
+        "Tres sistemas IA FDA-cleared tamizaje RD (IDx-DR, EyeArt, AEYE)",
+        "IA en oftalmología CAGR 36.8% hasta 2035",
+        "OCT con IA en neuro-oftalmología",
+        "IA salud pública ocular screening masivo (PMC 2025)",
+        "Epioxa CXL epi-on FDA aprobado Q1 2026",
+        "iDose TR re-administración FDA enero 2026",
+        "Susvimo ranibizumab FDA aprobado para RD",
+        "TECNIS PureSee EDOF IOL FDA aprobado",
+        "SAFARI-3/4 Sanoculis MIMS vs trabeculectomía",
+        "Eyetronic neuroestimulación glaucoma",
+        "Elegrobart REVEAL-1 Fase 3 positiva TED marzo 2026",
+        "Sight Sciences TearCare y OMNI ASCRS 2026",
+        "Elios trabeculostomía excimer 8 años datos",
+        "Dispositivos reutilizables catarata -90% desechos",
+        "Veligrotug BLA Priority Review PDUFA 30 junio 2026",
+        "Privosegtor OCS-05 Breakthrough Designation neuritis óptica",
+        "OCU410 Ocugen terapia génica GA-AMD datos +12M",
+        "OPGx-BEST1 Opus Genetics +12 letras BCVA bestrophinopatía",
+        "GenEditBio CRISPR CLARITY distrofia corneal TGFBI",
+        "SPVN20 SparingVision NYRVANA retinitis pigmentosa",
+        "KSI-301 tarcocimab GLOW1 Fase 3 RD",
+        "ABBV-RGX-314 y 4D-150 terapias génicas RD/EMD",
+        "Reproxalap tercera CRL FDA ojo seco",
+        "Qlaris FIRECREST Fase 3 glaucoma",
+        "Brimochol PF presbiopía PDUFA enero 2026",
+        "Mercado global oftalmología $55.5B 2026 → $92.66B 2035",
+        "PE en oftalmología 40+ transacciones 10-15x EBITDA",
+        "Cencora adquiere Retina Consultants America $4.6B",
+        "ASCRS 2026 intersección gobierno y oftalmología",
+        "CXL 10 años reembolso Epioxa nueva era",
+        "Glaukos múltiples abstracts ASCRS 2026",
+        "OrthoK + atropina escalante reducción axial 39.4%",
+        "IMI 2025 evidencia atropina OrthoK lentes defocalizantes",
+        "Epidemia global miopía 50% para 2050",
+        "Pacientes Latinx prefieren teleoftalmología con supervisión humana"
+      ],
+      "iit_propuestas": [
+        "PRDR-AI Study - validación IA RD en hispanos PR",
+        "iDOSE-HISP Study - iDose TR glaucoma hispano",
+        "PIONEER-PR - sub-sitio PIONEER-2/3 privosegtor",
+        "RETINA-GENE-PR - acceso 4D-150 y ABBV-RGX-314",
+        "VELI-TED-PR - veligrotug TED hispano post-aprobación",
+        "CONTROL-MIOPIA-PR - OrthoK + atropina niños hispanos",
+        "CRISPR-CORNEA-PR - sitio CLARITY trial GenEditBio",
+        "TELE-GLAU-PR - monitoreo remoto glaucoma IA"
+      ]
+    }
+  ]
+}

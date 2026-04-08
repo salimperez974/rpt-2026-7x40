@@ -1,10 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta http-equiv="refresh" content="0; url=iOPR%20Reporte%20Semanal.html">
-  <title>Redirecting...</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iOPR — Archivo de Reportes Semanales</title>
+<style>
+  :root {
+    --primary: #0f4c75;
+    --primary-light: #1b6ca8;
+    --accent: #1abc9c;
+    --bg: #f0f4f8;
+    --card-bg: #ffffff;
+    --text: #2c3e50;
+    --muted: #7f8c8d;
+    --border: #dee2e6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, #1b6ca8 60%, #1abc9c 100%);
+    color: white;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+  }
+  header .logo-row { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem; }
+  header .logo-icon { font-size: 2.8rem; }
+  header h1 { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; }
+  header .subtitle { font-size: 1rem; opacity: 0.9; margin-top: 0.3rem; }
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+
+  .latest-banner {
+    background: linear-gradient(135deg, #1abc9c, #16a085);
+    color: white;
+    border-radius: 14px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(26,188,156,0.3);
+    text-decoration: none;
+    display: block;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .latest-banner:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,188,156,0.4); }
+  .latest-banner .label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.85; margin-bottom: 0.3rem; }
+  .latest-banner h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem; }
+  .latest-banner .date { font-size: 0.9rem; opacity: 0.9; }
+  .latest-banner .arrow { float: right; font-size: 1.5rem; margin-top: -2.5rem; }
+
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .archive-list { list-style: none; padding: 0; }
+  .archive-item {
+    background: var(--card-bg);
+    border-radius: 10px;
+    margin-bottom: 0.7rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+    border-left: 4px solid var(--primary);
+  }
+  .archive-item:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .archive-item a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.3rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .archive-item .week-info h3 { font-size: 0.95rem; font-weight: 700; color: var(--primary); }
+  .archive-item .week-info .date { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; }
+  .archive-item .arrow-right { color: var(--accent); font-size: 1.2rem; font-weight: 700; }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+    padding: 1.2rem 1rem;
+    font-size: 0.8rem;
+    margin-top: 2rem;
+  }
+  footer strong { color: white; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.3rem; }
+    .latest-banner { padding: 1.2rem; }
+  }
+</style>
 </head>
 <body>
-  <p>Redirecting to <a href="iOPR%20Reporte%20Semanal.html">iOPR Reporte Semanal</a>...</p>
+
+<header>
+  <div class="logo-row">
+    <span class="logo-icon">&#128065;&#65039;</span>
+    <div>
+      <h1>Instituto de Ojos de Puerto Rico</h1>
+      <div class="subtitle">Archivo de Reportes Semanales de Tendencias en Salud Visual</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- LATEST REPORT BANNER - Cowork updates this section each week -->
+  <a class="latest-banner" href="reportes/2026-W15.html" id="latest-link">
+    <div class="label">&#128308; Reporte M&aacute;s Reciente</div>
+    <h2 id="latest-title">Semana del 6 de Abril 2026</h2>
+    <div class="date" id="latest-date">Semana 15 &mdash; ASCRS 2026, Epioxa FDA, iDose TR, Veligrotug PDUFA, IA en Oftalmolog&iacute;a</div>
+    <span class="arrow">&#8594;</span>
+  </a>
+
+  <!-- ARCHIVE LIST - Cowork prepends new entries here -->
+  <div class="section-title">
+    <span>&#128197;</span> Reportes Anteriores
+  </div>
+
+  <ul class="archive-list" id="archive-list">
+    <!-- ARCHIVE_ENTRY_START -->
+    <li class="archive-item">
+      <a href="reportes/2026-W15.html">
+        <div class="week-info">
+          <h3>Semana 15 &mdash; 6 de Abril 2026</h3>
+          <div class="date">ASCRS 2026 &bull; Epioxa CXL FDA &bull; iDose TR re-admin &bull; Veligrotug PDUFA &bull; IA tamizaje RD &bull; Elegrobart REVEAL-1</div>
+        </div>
+        <span class="arrow-right">&#8594;</span>
+      </a>
+    </li>
+    <!-- ARCHIVE_ENTRY_END -->
+  </ul>
+
+</main>
+
+<footer>
+  <strong>Instituto de Ojos de Puerto Rico (iOPR)</strong> &nbsp;|&nbsp;
+  Archivo de Reportes Semanales &nbsp;|&nbsp;
+  Generado autom&aacute;ticamente con IA &nbsp;|&nbsp;
+  Uso interno &mdash; Direcci&oacute;n Ejecutiva y Direcci&oacute;n M&eacute;dica
+</footer>
+
 </body>
 </html>
