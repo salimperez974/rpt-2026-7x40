@@ -1,881 +1,598 @@
-<!DOCTYPE html>
+<\!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iOPR — Reporte Semanal de Tendencias en Salud Visual | Semana del 6 de Abril 2026</title>
+<title>iOPR — Reporte Semanal de Tendencias en Salud Visual</title>
 <style>
-  :root {
-    --primary: #0f4c75;
-    --primary-light: #1b6ca8;
-    --accent: #1abc9c;
-    --accent2: #e74c3c;
-    --bg: #f0f4f8;
-    --card-bg: #ffffff;
-    --text: #2c3e50;
-    --muted: #7f8c8d;
-    --border: #dee2e6;
-    --tag-blue: #dbeafe;
-    --tag-green: #d1fae5;
-    --tag-red: #fee2e2;
-    --tag-yellow: #fef3c7;
-    --tag-purple: #ede9fe;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-  }
-  header {
-    background: linear-gradient(135deg, var(--primary) 0%, #1b6ca8 60%, #1abc9c 100%);
-    color: white;
-    padding: 2.5rem 2rem 2rem;
-    text-align: center;
-  }
-  header .logo-row { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem; }
-  header .logo-icon { font-size: 2.8rem; }
-  header h1 { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; }
-  header .subtitle { font-size: 1rem; opacity: 0.9; margin-top: 0.3rem; }
-  header .meta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.2rem; }
-  header .badge {
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.35);
-    border-radius: 20px;
-    padding: 0.25rem 0.85rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    backdrop-filter: blur(4px);
-  }
-  .alert-ascrs {
-    background: linear-gradient(90deg, #e74c3c, #c0392b);
-    color: white;
-    text-align: center;
-    padding: 0.7rem 1rem;
-    font-weight: 700;
-    font-size: 0.92rem;
-    letter-spacing: 0.3px;
-  }
-  .alert-ascrs a { color: #ffe; text-decoration: underline; }
-  .tabs-wrapper { background: var(--primary); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-  .tabs { display: flex; overflow-x: auto; scrollbar-width: none; }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab-btn {
-    background: none; border: none; color: rgba(255,255,255,0.75);
-    padding: 0.9rem 1.2rem; cursor: pointer; white-space: nowrap;
-    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.3px;
-    transition: all 0.2s; border-bottom: 3px solid transparent;
-    flex-shrink: 0;
-  }
-  .tab-btn:hover { color: white; background: rgba(255,255,255,0.08); }
-  .tab-btn.active { color: white; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
-  main { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-  .section-hdr {
-    display: flex; align-items: center; gap: 0.7rem;
-    margin-bottom: 1.4rem; padding-bottom: 0.7rem;
-    border-bottom: 3px solid var(--primary);
-  }
-  .section-hdr .icon { font-size: 1.8rem; }
-  .section-hdr h2 { font-size: 1.4rem; color: var(--primary); font-weight: 800; }
-  .section-hdr .count {
-    margin-left: auto; background: var(--primary); color: white;
-    border-radius: 12px; padding: 0.1rem 0.6rem; font-size: 0.75rem; font-weight: 700;
-  }
-  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.1rem; }
-  .card {
-    background: var(--card-bg); border-radius: 12px; padding: 1.2rem 1.3rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07); border-left: 4px solid var(--primary);
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
-  .card.accent { border-left-color: var(--accent); }
-  .card.red { border-left-color: var(--accent2); }
-  .card.yellow { border-left-color: #f39c12; }
-  .card.purple { border-left-color: #8e44ad; }
-  .card-tag {
-    display: inline-block; border-radius: 4px; padding: 0.1rem 0.45rem;
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.4px;
-    text-transform: uppercase; margin-bottom: 0.5rem;
-  }
-  .tag-blue { background: var(--tag-blue); color: #1e40af; }
-  .tag-green { background: var(--tag-green); color: #065f46; }
-  .tag-red { background: var(--tag-red); color: #991b1b; }
-  .tag-yellow { background: var(--tag-yellow); color: #92400e; }
-  .tag-purple { background: var(--tag-purple); color: #4c1d95; }
-  .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.45rem; color: var(--primary); line-height: 1.3; }
-  .card p { font-size: 0.875rem; color: #444; line-height: 1.55; }
-  .src-link {
-    display: inline-block; margin-top: 0.55rem;
-    color: var(--primary-light); font-size: 0.78rem; font-weight: 600;
-    text-decoration: none; border-bottom: 1px dashed var(--primary-light);
-  }
-  .src-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
-  .exec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-  .kpi-card {
-    background: white; border-radius: 12px; padding: 1.1rem 1.2rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; gap: 0.9rem; align-items: flex-start;
-  }
-  .kpi-icon { font-size: 2rem; flex-shrink: 0; margin-top: 0.1rem; }
-  .kpi-body h4 { font-size: 0.85rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
-  .kpi-body p { font-size: 0.92rem; color: var(--text); font-weight: 600; margin-top: 0.15rem; line-height: 1.4; }
-  .iit-table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); margin-bottom: 1.5rem; }
-  table.iit-table { width: 100%; border-collapse: collapse; background: white; font-size: 0.83rem; }
-  table.iit-table thead tr { background: var(--primary); color: white; }
-  table.iit-table th { padding: 0.75rem 0.85rem; text-align: left; font-weight: 700; white-space: nowrap; }
-  table.iit-table tbody tr:nth-child(even) { background: #f8fafc; }
-  table.iit-table td { padding: 0.7rem 0.85rem; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.4; }
-  table.iit-table td strong { color: var(--primary); }
-  .priority-high { background: #fee2e2; color: #991b1b; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
-  .priority-med  { background: #fef3c7; color: #92400e; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
-  table.cong-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.07); font-size: 0.85rem; }
-  table.cong-table thead tr { background: var(--primary); color: white; }
-  table.cong-table th { padding: 0.7rem 0.9rem; text-align: left; font-weight: 700; }
-  table.cong-table tbody tr:nth-child(even) { background: #f8fafc; }
-  table.cong-table td { padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--border); }
-  .cong-now { background: #d1fae5 !important; font-weight: 700; }
-  .cong-soon { background: #fef3c7 !important; }
-  .sources-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.5rem; }
-  .sources-list li a { color: var(--primary-light); text-decoration: none; font-size: 0.83rem; }
-  .sources-list li a:hover { text-decoration: underline; }
-  .sources-list li::before { content: "-> "; color: var(--accent); font-weight: bold; }
-  footer { background: var(--primary); color: rgba(255,255,255,0.8); text-align: center; padding: 1.4rem 1rem; font-size: 0.8rem; margin-top: 2rem; }
-  footer strong { color: white; }
-  @media (max-width: 600px) {
-    header h1 { font-size: 1.3rem; }
-    .cards-grid { grid-template-columns: 1fr; }
-    table.iit-table { font-size: 0.75rem; }
-  }
+:root{--primary:#0f4c75;--primary-light:#1b6ca8;--accent:#3282b8;--bg:#f4f7fa;--card:#fff;--text:#1a1a2e;--text-light:#555;--border:#dce3ed;--success:#27ae60;--warning:#f39c12;--danger:#e74c3c;--iit:#8e44ad}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);color:#fff;padding:2rem;text-align:center;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:0;right:0;width:300px;height:100%;background:rgba(255,255,255,0.05);transform:skewX(-15deg);pointer-events:none}
+.header h1{font-size:1.8rem;font-weight:700;margin-bottom:.3rem}
+.header .subtitle{opacity:.85;font-size:1rem}
+.header .date-badge{display:inline-block;background:rgba(255,255,255,.2);padding:.3rem 1rem;border-radius:20px;margin-top:.5rem;font-size:.85rem}
+.nav-tabs{display:flex;flex-wrap:wrap;gap:0;background:#fff;border-bottom:2px solid var(--border);padding:0 1rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.nav-tabs button{padding:.8rem 1.1rem;border:none;background:none;cursor:pointer;font-size:.82rem;font-weight:600;color:var(--text-light);border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
+.nav-tabs button:hover{color:var(--primary)}
+.nav-tabs button.active{color:var(--primary);border-bottom-color:var(--primary);background:rgba(15,76,117,.04)}
+.container{max-width:1100px;margin:0 auto;padding:1.5rem 1rem}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.card{background:var(--card);border-radius:10px;padding:1.5rem;margin-bottom:1.2rem;box-shadow:0 1px 6px rgba(0,0,0,.06);border-left:4px solid var(--primary)}
+.card.iit{border-left-color:var(--iit)}
+.card.alert{border-left-color:var(--warning)}
+.card.fda{border-left-color:var(--success)}
+.card.danger{border-left-color:var(--danger)}
+.card h3{font-size:1.05rem;color:var(--primary);margin-bottom:.5rem}
+.card.iit h3{color:var(--iit)}
+.card p,.card li{font-size:.92rem;color:var(--text);margin-bottom:.4rem}
+.card ul{padding-left:1.3rem}
+.card ul li{margin-bottom:.35rem}
+.tag{display:inline-block;font-size:.7rem;padding:.15rem .5rem;border-radius:12px;font-weight:600;margin-right:.3rem;margin-bottom:.3rem}
+.tag-fda{background:#e8f5e9;color:#2e7d32}
+.tag-trial{background:#e3f2fd;color:#1565c0}
+.tag-iit{background:#f3e5f5;color:#7b1fa2}
+.tag-new{background:#fff3e0;color:#e65100}
+.tag-ai{background:#e0f2f1;color:#00695c}
+.tag-gene{background:#fce4ec;color:#c62828}
+.tag-device{background:#f1f8e9;color:#558b2f}
+a.src-link{color:var(--accent);text-decoration:none;font-size:.82rem;font-weight:600}
+a.src-link:hover{text-decoration:underline}
+.exec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+.metric-box{background:var(--card);border-radius:10px;padding:1.2rem;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.metric-box .number{font-size:2rem;font-weight:800;color:var(--primary)}
+.metric-box .label{font-size:.8rem;color:var(--text-light)}
+.congress-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.congress-table th{background:var(--primary);color:#fff;padding:.6rem .8rem;text-align:left}
+.congress-table td{padding:.6rem .8rem;border-bottom:1px solid var(--border)}
+.congress-table tr:hover{background:rgba(15,76,117,.03)}
+.section-title{font-size:1.3rem;font-weight:700;color:var(--primary);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--border)}
+.iit-action{background:linear-gradient(135deg,#f3e5f5,#ede7f6);border-radius:8px;padding:1rem;margin-top:.8rem}
+.iit-action strong{color:var(--iit)}
+.footer{text-align:center;padding:2rem;color:var(--text-light);font-size:.8rem;border-top:1px solid var(--border);margin-top:2rem}
+@media(max-width:768px){.nav-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch}.nav-tabs button{font-size:.75rem;padding:.6rem .7rem}.header h1{font-size:1.3rem}.exec-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
-<header>
-  <div class="logo-row">
-    <span class="logo-icon">&#128065;&#65039;</span>
-    <div>
-      <h1>Instituto de Ojos de Puerto Rico</h1>
-      <div class="subtitle">Reporte Semanal de Tendencias en Salud Visual</div>
-    </div>
-  </div>
-  <div class="meta-row">
-    <span class="badge">&#128197; Semana del 6 de Abril 2026</span>
-    <span class="badge">&#127758; Puerto Rico &middot; FDA Jurisdiction</span>
-    <span class="badge">&#128101; 58,000+ Pacientes Activos</span>
-    <span class="badge">&#128300; Generado por IA</span>
-  </div>
-</header>
-
-<div class="alert-ascrs">
-  &#128308; URGENTE: ASCRS 2026 Annual Meeting &mdash; Washington D.C., 10&ndash;13 Abril 2026 (&#161;ESTA SEMANA!) &nbsp;|&nbsp;
-  <a href="https://annualmeeting.ascrs.org/" target="_blank">&#8594; Programa Completo</a>
+<div class="header">
+<h1>Instituto de Ojos de Puerto Rico</h1>
+<p class="subtitle">Reporte Semanal de Tendencias en Salud Visual</p>
+<span class="date-badge">Semana del 13 de abril de 2026</span>
 </div>
 
-<div class="tabs-wrapper">
-  <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('exec',this)">&#128202; Resumen Ejecutivo</button>
-    <button class="tab-btn" onclick="showTab('ai',this)">&#129302; IA y Tecnolog&iacute;a</button>
-    <button class="tab-btn" onclick="showTab('clinica',this)">&#127973; Cl&iacute;nica y Cirug&iacute;a</button>
-    <button class="tab-btn" onclick="showTab('pipeline',this)">&#128138; Pipeline y F&aacute;rmacos</button>
-    <button class="tab-btn" onclick="showTab('mercado',this)">&#128200; Mercado y Negocio</button>
-    <button class="tab-btn" onclick="showTab('miopia',this)">&#128083; Control de Miop&iacute;a</button>
-    <button class="tab-btn" onclick="showTab('iit',this)">&#128300; Oportunidades IIT</button>
-    <button class="tab-btn" onclick="showTab('congresos',this)">&#128197; Congresos</button>
-    <button class="tab-btn" onclick="showTab('fuentes',this)">&#128218; Fuentes</button>
-  </div>
+<div class="nav-tabs" id="navTabs">
+<button class="active" onclick="showTab('resumen')">Resumen Ejecutivo</button>
+<button onclick="showTab('ia')">IA y Tecnología</button>
+<button onclick="showTab('clinica')">Clínica y Cirugía</button>
+<button onclick="showTab('pipeline')">Pipeline y Fármacos</button>
+<button onclick="showTab('mercado')">Mercado y Negocio</button>
+<button onclick="showTab('miopia')">Control de Miopía</button>
+<button onclick="showTab('iit')">Oportunidades IIT</button>
+<button onclick="showTab('congresos')">Congresos</button>
+<button onclick="showTab('fuentes')">Fuentes</button>
 </div>
 
-<main>
+<div class="container">
 
-<!-- RESUMEN EJECUTIVO -->
-<div id="tab-exec" class="tab-content active">
-  <div class="section-hdr">
-    <span class="icon">&#128202;</span>
-    <h2>Resumen Ejecutivo &mdash; Semana del 6 de Abril 2026</h2>
-  </div>
-  <div class="exec-grid">
-    <div class="kpi-card">
-      <span class="kpi-icon">&#128680;</span>
-      <div class="kpi-body">
-        <h4>Evento Urgente</h4>
-        <p>ASCRS 2026 Washington D.C. &mdash; 10 al 13 de abril. Presentaciones clave en glaucoma intervencionista, Epioxa CXL y IA quir&uacute;rgica (ZEISS VisioGen).</p>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-icon">&#128138;</span>
-      <div class="kpi-body">
-        <h4>PDUFA Pr&oacute;ximo</h4>
-        <p>Veligrotug (Viridian) para enfermedad tiroidea ocular &mdash; decisi&oacute;n FDA esperada <strong>30 junio 2026</strong>. Breakthrough Therapy Designation.</p>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-icon">&#129516;</span>
-      <div class="kpi-body">
-        <h4>Terapia G&eacute;nica Avanzando</h4>
-        <p>OPGx-BEST1 (Opus Genetics) reporta +12 letras BCVA en Fase 1/2 para Bestrophinopat&iacute;a. Ocugen OCU410 para GA-AMD muestra datos positivos a 12 meses.</p>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-icon">&#129302;</span>
-      <div class="kpi-body">
-        <h4>IA Transformando Pr&aacute;ctica</h4>
-        <p>78% de oft&aacute;lm&oacute;logos citan IA como tendencia m&aacute;s transformadora. Tres sistemas aut&oacute;nomos de IA aprobados por FDA para tamizaje de RD en atenci&oacute;n primaria.</p>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-icon">&#128137;</span>
-      <div class="kpi-body">
-        <h4>Glaucoma: iDose TR Re-Administraci&oacute;n</h4>
-        <p>FDA aprueba suplemento NDA en enero 2026 para re-administraci&oacute;n de iDose TR. Sin p&eacute;rdida de c&eacute;lulas endoteliales corneales a 3 a&ntilde;os.</p>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-icon">&#128064;</span>
-      <div class="kpi-body">
-        <h4>C&oacute;rnea: Epioxa Disponible</h4>
-        <p>Glaukos lanza Epioxa &mdash; primer CXL epitelium-on con ox&iacute;geno aprobado por FDA, disponible Q1 2026. Indicado &#8805;13 a&ntilde;os.</p>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-icon">&#129504;</span>
-      <div class="kpi-body">
-        <h4>Neuro-Oftalmolog&iacute;a</h4>
-        <p>Privosegtor (Oculis) obtiene Breakthrough Designation para neuritis &oacute;ptica. Ensayo pivotal PIONEER-2 inicia H1 2026 en EM y no-EM.</p>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-icon">&#128201;</span>
-      <div class="kpi-body">
-        <h4>Ojo Seco: Rev&eacute;s Regulatorio</h4>
-        <p>Reproxalap (Aldeyra) recibe tercera CRL de la FDA. Mercado busca alternativas post-Miebo para enfermedad de la superficie ocular.</p>
-      </div>
-    </div>
-  </div>
+<\!-- ==================== RESUMEN EJECUTIVO ==================== -->
+<div class="tab-content active" id="resumen">
+<h2 class="section-title">Resumen Ejecutivo — Semana del 13 de abril de 2026</h2>
 
-  <div class="section-hdr" style="margin-top:1.8rem;">
-    <span class="icon">&#128300;</span>
-    <h2>Top 3 Oportunidades IIT para iOPR Esta Semana</h2>
-  </div>
-  <div class="cards-grid">
-    <div class="card accent">
-      <span class="card-tag tag-green">IIT Prioritaria #1</span>
-      <h3>Tamizaje Aut&oacute;nomo de RD con IA en Poblaci&oacute;n Hispana de PR</h3>
-      <p>Pool de 58K pacientes con alta prevalencia de DM (~33% RD en Caribe). Proponer protocolo de validaci&oacute;n de EyeArt o AEYE Health en hispanohablantes. Sponsor potencial: Eyenuk / AEYE Health / NIH NCMHD. Contactar: <strong>info@eyenuk.com</strong></p>
-      <a class="src-link" href="https://www.diabetesincontrol.com/diabetic-retinopathy-screening-2026/" target="_blank">&#8594; Diabetes In Control 2026</a>
-    </div>
-    <div class="card accent">
-      <span class="card-tag tag-green">IIT Prioritaria #2</span>
-      <h3>iDose TR en Glaucoma Hispano: Adherencia y Resultados a 2 A&ntilde;os</h3>
-      <p>Glaucoma prevalencia ~5% (15% en &gt;70 a&ntilde;os en PR). Hispanohablantes con hist&oacute;rico de baja adherencia a gotas. IIT prospectivo evaluando iDose TR vs. terapia t&oacute;pica. Sponsor: <strong>Glaukos Corporation</strong> &mdash; programa IIT Grant.</p>
-      <a class="src-link" href="https://www.glaukos.com/glaucoma/products/idose-tr/" target="_blank">&#8594; Glaukos iDose TR</a>
-    </div>
-    <div class="card accent">
-      <span class="card-tag tag-green">IIT Prioritaria #3</span>
-      <h3>Privosegtor (OCS-05) para Neuritis &Oacute;ptica en PR: Sitio PIONEER-2</h3>
-      <p>Datos ACUITY Fase 2: +18 letras ETDRS vs. placebo, reducci&oacute;n RNFL thinning. PIONEER-2 iniciando H1 2026. iOPR puede ser sitio investigador ideal por diversidad &eacute;tnica hispana subrepresentada. Sponsor: <strong>Oculis SA</strong></p>
-      <a class="src-link" href="https://www.ophthalmologytimes.com/view/fda-grants-breakthrough-therapy-designation-to-oculis-privosegtor-for-optic-neuritis" target="_blank">&#8594; Ophthalmology Times / Privosegtor</a>
-    </div>
-  </div>
+<div class="exec-grid">
+<div class="metric-box"><div class="number">4</div><div class="label">Aprobaciones FDA recientes en oftalmología</div></div>
+<div class="metric-box"><div class="number">12+</div><div class="label">Ensayos clínicos activos en retina/glaucoma</div></div>
+<div class="metric-box"><div class="number">$55.5B</div><div class="label">Valor del mercado oftalmológico 2026</div></div>
+<div class="metric-box"><div class="number">58K+</div><div class="label">Pacientes activos iOPR — ventaja para IITs</div></div>
 </div>
 
-<!-- IA Y TECNOLOGIA -->
-<div id="tab-ai" class="tab-content">
-  <div class="section-hdr">
-    <span class="icon">&#129302;</span>
-    <h2>IA y Tecnolog&iacute;a en Oftalmolog&iacute;a</h2>
-    <span class="count">8 noticias</span>
-  </div>
-  <div class="cards-grid">
-    <div class="card">
-      <span class="card-tag tag-blue">IA Cl&iacute;nica</span>
-      <h3>Chatbot AI Multiling&uuml;e para Detecci&oacute;n de Desprendimiento de Retina</h3>
-      <p>Investigadores de Moorfields Eye Hospital, Queen's Hospital y Univ. East London desarrollaron chatbot con voz en m&uacute;ltiples idiomas para explicar desprendimiento de retina y facilitar consulta urgente. Altamente relevante para poblaci&oacute;n hispanohablante de PR.</p>
-      <a class="src-link" href="https://medicalxpress.com/news/2026-04-ai-patient-eye.html" target="_blank">&#8594; MedicalXpress, Abril 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Red Glaucoma</span>
-      <h3>Amaros Lanza Interventional Glaucoma Network con AmarosEngine AI</h3>
-      <p>Red cl&iacute;nica para generar evidencia real-world en glaucoma intervencionista, impulsada por plataforma de IA AmarosEngine. Busca sitios de alto volumen. <strong>Oportunidad de participaci&oacute;n para iOPR como sitio ancla caribe&ntilde;o.</strong></p>
-      <a class="src-link" href="https://www.ophthalmologytimes.com/view/how-ai-is-reshaping-ophthalmology-in-2025-and-beyond" target="_blank">&#8594; Ophthalmology Times / AI 2025 Beyond</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">IA Quir&uacute;rgica</span>
-      <h3>ZEISS VisioGen: IA para Engagement de Pacientes &mdash; Lanzado en ASCRS 2026</h3>
-      <p>VisioGen integra IA verificada por humanos para capturar demanda de pacientes, programar cirug&iacute;a de cataratas y procedimientos refractivos. Compatible con sistemas de gesti&oacute;n existentes. Demostrado en ASCRS esta semana.</p>
-      <a class="src-link" href="https://www.prnewswire.com/news-releases/zeiss-advances-connected-cataract-and-refractive-workflows-with-new-digital-ai-and-surgical-innovations-at-ascrs-302732313.html" target="_blank">&#8594; PR Newswire / ZEISS ASCRS 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">IOL C&aacute;lculo</span>
-      <h3>ZEISS AI IOL Calculator: F&oacute;rmula para Post-LVC y T&oacute;ricos Complejos</h3>
-      <p>Nuevas f&oacute;rmulas al VERACITY Surgery Planner: Barrett RX formula y ZEISS AI Calculator para post-cirug&iacute;a refractiva l&aacute;ser. Soporta c&aacute;lculos t&oacute;ricos en casos complejos.</p>
-      <a class="src-link" href="https://eyewire.news/news/zeiss-to-unveil-ai-driven-surgical-and-digital-innovations-at-ascrs-2026" target="_blank">&#8594; Eyewire+ / ZEISS AI ASCRS 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-green">Tamizaje RD</span>
-      <h3>Tres Sistemas Aut&oacute;nomos de IA FDA-Cleared para Tamizaje de RD en Primaria</h3>
-      <p>IDx-DR (Digital Diagnostics), EyeArt (Eyenuk) y AEYE Health permiten tamizaje aut&oacute;nomo de RD sin oft&aacute;lm&oacute;logo en sitio. Seguimiento 3x mayor vs. workflows manuales. Altamente aplicable a centros de atenci&oacute;n primaria en PR.</p>
-      <a class="src-link" href="https://www.diabetesincontrol.com/diabetic-retinopathy-screening-2026/" target="_blank">&#8594; Diabetes In Control / RD Screening 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Mercado IA</span>
-      <h3>IA en Oftalmolog&iacute;a: CAGR 36.8% hasta 2035 &mdash; Mayor Transformaci&oacute;n de la Especialidad</h3>
-      <p>78% de oft&aacute;lm&oacute;logos identifican IA como tendencia m&aacute;s transformadora. Plataformas RetinAI, Amaros AI y Bitfount lideran en datos RWE y enrolamiento eficiente de ensayos cl&iacute;nicos.</p>
-      <a class="src-link" href="https://www.towardshealthcare.com/insights/ai-in-ophthalmology-market-sizing" target="_blank">&#8594; Towards Healthcare / AI Ophthalmology Market</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">IA OCT</span>
-      <h3>OCT con IA: Herramienta Indispensable en Neuro-Oftalmolog&iacute;a</h3>
-      <p>Nuevos biomarcadores s&eacute;ricos + OCT con IA redefinen diagn&oacute;stico de neuritis &oacute;ptica inmunomediada y seguimiento de glaucoma. Insights sin precedente en patolog&iacute;a de nervio &oacute;ptico y SNC.</p>
-      <a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11668219/" target="_blank">&#8594; PMC / Recent Advances Neuro-Ophthalmology</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-purple">Salud P&uacute;blica</span>
-      <h3>IA en Salud P&uacute;blica Ocular: Screening Masivo y Epidemiolog&iacute;a (PMC 2025)</h3>
-      <p>Revisi&oacute;n sistemática documenta aplicaciones de IA en salud p&uacute;blica ocular: screening masivo, epidemiolog&iacute;a en poblaciones vulnerables, telemedicina y referidos autom&aacute;ticos. Modelo replicable para PR.</p>
-      <a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12044197/" target="_blank">&#8594; PMC / AI Ophthalmology Public Health 2025</a>
-    </div>
-  </div>
+<div class="card fda" style="margin-top:1.5rem">
+<h3>1. Aprobaciones FDA Clave</h3>
+<p><span class="tag tag-fda">FDA APROBADO</span> <strong>Yuvezzi</strong> (carbachol/brimonidina) — primera gota dual para presbicia, aprobada enero 2026. Disponible Q2 2026. <a class="src-link" href="https://www.ophthalmologytimes.com/view/fda-approves-carbachol-brimonidine-eye-drop-for-presbyopia" target="_blank">→ Ophthalmology Times</a></p>
+<p><span class="tag tag-fda">FDA APROBADO</span> <strong>TECNIS PureSee EDOF IOL</strong> (J&J Vision) — nuevo lente de profundidad de foco extendida, aprobado marzo 2026. <a class="src-link" href="https://eyewire.news/news/johnson-johnson-announces-fda-approval-of-tecni-puresee-iol-for-cataract-surgery" target="_blank">→ Eyewire+</a></p>
+<p><span class="tag tag-fda">FDA APROBADO</span> <strong>Epioxa™</strong> (Glaukos) — primer crosslinking sin incisión para queratocono. Disponible Q1 2026. <a class="src-link" href="https://investors.glaukos.com/news/news-details/2025/Glaukos-Announces-FDA-Approval-of-Epioxa/default.aspx" target="_blank">→ Glaukos</a></p>
+<p><span class="tag tag-fda">FDA EN REVISIÓN</span> <strong>Idebenona</strong> (Chiesi) para LHON — PDUFA 28 feb 2026, revisión prioritaria. <a class="src-link" href="https://www.ophthalmologytimes.com/view/idebenone-accepted-by-fda-for-priority-review-for-leber-hereditary-optic-neuropathy" target="_blank">→ Ophthalmology Times</a></p>
 </div>
 
-<!-- CLINICA Y CIRUGIA -->
-<div id="tab-clinica" class="tab-content">
-  <div class="section-hdr">
-    <span class="icon">&#127973;</span>
-    <h2>Innovaciones Cl&iacute;nicas y Quir&uacute;rgicas</h2>
-    <span class="count">10 noticias</span>
-  </div>
-  <div class="cards-grid">
-    <div class="card">
-      <span class="card-tag tag-green">C&oacute;rnea &mdash; NUEVO FDA</span>
-      <h3>Epioxa&#8482;: Primer CXL Epitelium-On Aprobado por FDA &mdash; Disponible Q1 2026</h3>
-      <p>Glaukos lanza Epioxa, primera terapia de crosslinking corneal sin incisi&oacute;n (epitelium-on, enriquecida con ox&iacute;geno) aprobada por FDA para queratocono. Indicada en adultos y pedi&aacute;tricos &#8805;13 a&ntilde;os. Tiempo de recuperaci&oacute;n significativamente menor vs. CXL convencional epi-off. Presentaci&oacute;n en ASCRS esta semana.</p>
-      <a class="src-link" href="https://investors.glaukos.com/news/news-details/2025/Glaukos-Announces-FDA-Approval-of-Epioxa/default.aspx" target="_blank">&#8594; Glaukos / FDA Approval Epioxa</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Glaucoma</span>
-      <h3>iDose TR: FDA Aprueba Re-Administraci&oacute;n &mdash; Enero 2026</h3>
-      <p>Primer implante intracameral de liberaci&oacute;n prolongada de travoprost con protocolo de re-administraci&oacute;n aprobado. Sin p&eacute;rdida cl&iacute;nicamente significativa de c&eacute;lulas endoteliales corneales a 3 a&ntilde;os (Fases 2b y 3). Mejora adherencia vs. gotas.</p>
-      <a class="src-link" href="https://investors.glaukos.com/news/news-details/2026/Glaukos-Announces-US-FDA-Approval-of-NDA-Supplement-Allowing-for-Re-Administration-of-iDose-TR/default.aspx" target="_blank">&#8594; Glaukos / iDose TR Re-Admin FDA 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-green">Retina &mdash; FDA</span>
-      <h3>Susvimo (Ranibizumab): Primer Tratamiento Continuo Aprobado FDA para RD</h3>
-      <p>Roche/Genentech obtiene aprobaci&oacute;n FDA de Susvimo para retinopatia diab&eacute;tica. &Uacute;nico tratamiento de liberaci&oacute;n continua para RD que mantiene visi&oacute;n con recarga cada 9 meses. Cambio paradigm&aacute;tico para ~19K pacientes diab&eacute;ticos de iOPR.</p>
-      <a class="src-link" href="https://www.roche.com/media/releases/med-cor-2025-05-22" target="_blank">&#8594; Roche / Susvimo FDA Approval RD</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Catarata / Refractiva</span>
-      <h3>TECNIS PureSee EDOF IOL: FDA Aprobado &mdash; 97% Sin Disturbios Visuales Molestos</h3>
-      <p>Johnson &amp; Johnson anuncia aprobaci&oacute;n FDA del TECNIS PureSee (EDOF) para cirug&iacute;a de cataratas. 97% de pacientes reportan sin perturbaciones visuales. Ofrece visi&oacute;n de distancia y cerca con menos halos que multifocales previos.</p>
-      <a class="src-link" href="https://www.ophthalmologytimes.com/view/cataract-and-refractive-surgery-trends-challenges-and-innovations" target="_blank">&#8594; Ophthalmology Times / Cataract Innovations</a>
-    </div>
-    <div class="card yellow">
-      <span class="card-tag tag-yellow">Glaucoma Minimamente Invasivo</span>
-      <h3>SAFARI-3 Completado; Sanoculis MIMS vs. Trabeculectom&iacute;a en Trial EE.UU.</h3>
-      <p>SAFARI-4 eval&uacute;a nueva versi&oacute;n de dispositivo MIGS. Sanoculis recluta para ensayo comparativo de MIMS con mitomicina-C vs. trabeculectom&iacute;a en pacientes sin control. Resultados esperados final 2026.</p>
-      <a class="src-link" href="https://www.reviewofophthalmology.com/article/the-2026-glaucoma-pipeline" target="_blank">&#8594; Review of Ophthalmology / Glaucoma Pipeline 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Glaucoma Neural</span>
-      <h3>Eyetronic: Neuroestimulaci&oacute;n El&eacute;ctrica para Glaucoma Progresivo con IOP Controlada</h3>
-      <p>Trial de estimulaci&oacute;n neurosensorial Eyetronic eval&uacute;a beneficio en progresi&oacute;n glaucomatosa a pesar de IOP controlada. Stanford reporta efectos neuroprotectores con implante de c&eacute;lulas madre (Fase 2). Resultados preliminares esperados 2026.</p>
-      <a class="src-link" href="https://glaucoma.org/articles/glaucoma-news-hope-is-on-the-horizon" target="_blank">&#8594; Glaucoma Research Foundation</a>
-    </div>
-    <div class="card purple">
-      <span class="card-tag tag-purple">TED / Oculopl&aacute;stica</span>
-      <h3>Elegrobart (REVEAL-1) + Veligrotug: Nuevas Opciones para TED Activo 2026</h3>
-      <p>Elegrobart REVEAL-1 Fase 3 positiva (marzo 2026): proptosis responder 63% (8 sem) vs. 18% placebo. Resoluci&oacute;n completa diplopía 51%. Veligrotug PDUFA junio 2026. La competencia en TED reduce costos para pr&aacute;cticas con alto volumen de pacientes tiroideos.</p>
-      <a class="src-link" href="https://www.businesswire.com/news/home/20260330779172/en/Viridian-Therapeutics-Announces-Positive-Topline-Results-from-Elegrobart-Phase-3-REVEAL1-Clinical-Trial-in-Active-Thyroid-Eye-Disease" target="_blank">&#8594; BusinessWire / Elegrobart REVEAL-1 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-green">Ojo Seco Intervencionista</span>
-      <h3>Sight Sciences TearCare y OMNI en ASCRS 2026 &mdash; Plataforma Intervencionista</h3>
-      <p>Sight Sciences presenta datos de TearCare (disfunci&oacute;n de gl&aacute;ndulas de Meibomio) y OMNI (glaucoma intervencionista) en ASCRS 2026. La plataforma de ojo seco intervencionista recibe atenci&oacute;n creciente como alternativa a tratamiento t&oacute;pico cr&oacute;nico.</p>
-      <a class="src-link" href="https://www.biospace.com/press-releases/sight-sciences-interventional-technologies-for-glaucoma-and-dry-eye-disease-to-be-featured-in-multiple-clinical-presentations-at-the-2026-american-society-of-cataract-and-refractive-surgery-ascrs-annual-meeting" target="_blank">&#8594; BioSpace / Sight Sciences ASCRS 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-green">Glaucoma L&aacute;ser</span>
-      <h3>Elios: Trabeculostom&iacute;a con L&aacute;ser Excimer &mdash; 8 A&ntilde;os de Datos, Disponible 2026</h3>
-      <p>Procedimiento Elios de trabeculostom&iacute;a excimer mantiene presiones en mid-teens con 8 a&ntilde;os de evidencia cl&iacute;nica. Respaldo comercial esperado en 2026. Procedimiento ambulatorio con perfil de seguridad favorable.</p>
-      <a class="src-link" href="https://www.ophthalmologytimes.com/view/innovations-in-glaucoma-poised-for-breakthrough-in-2026-and-what-might-hold-the-back-" target="_blank">&#8594; Ophthalmology Times / Glaucoma Innovations 2026</a>
-    </div>
-    <div class="card yellow">
-      <span class="card-tag tag-yellow">Sustentabilidad</span>
-      <h3>Dispositivos Reutilizables en Catarata: &minus;90% Desechos Pl&aacute;sticos por Caso</h3>
-      <p>Cada 1,000 procedimientos con sistemas reutilizables previene &gt;320 kg de pl&aacute;stico y ~940 kg CO&#8322; equivalente. Consideraci&oacute;n creciente en ESG para pr&aacute;ctica de alto volumen como iOPR (impacto de ~10,000+ cirug&iacute;as/a&ntilde;o).</p>
-      <a class="src-link" href="https://www.eyeworld.org/2026/reducing-cost-waste-and-carbon-emissions-in-cataract-surgery-through-reusable-devices/" target="_blank">&#8594; EyeWorld 2026 / Sustainability Cataract</a>
-    </div>
-  </div>
+<div class="card">
+<h3>2. IA y Tecnología: Integración Clínica Acelerada</h3>
+<p>Los sistemas de IA multimodal han pasado de herramientas diagnósticas aisladas a sistemas de soporte decisional clínico integrados. Scribes clínicos con IA y documentación automatizada están reduciendo la carga administrativa. La IA acorta el desarrollo preclínico en >60%. <a class="src-link" href="https://healthcare.utah.edu/moran/news/2026/01/powering-hope-rise-of-ai-ophthalmology" target="_blank">→ Moran Eye Center</a></p>
 </div>
 
-<!-- PIPELINE Y FARMACOS -->
-<div id="tab-pipeline" class="tab-content">
-  <div class="section-hdr">
-    <span class="icon">&#128138;</span>
-    <h2>Pipeline Farmac&eacute;utico: Aprobaciones, PDUFA y Ensayos</h2>
-    <span class="count">12 noticias</span>
-  </div>
-  <div class="cards-grid">
-    <div class="card red">
-      <span class="card-tag tag-red">PDUFA 30 Jun 2026</span>
-      <h3>Veligrotug (Viridian) &mdash; BLA Prioridad para Enfermedad Tiroidea Ocular</h3>
-      <p>Monoclonal anti-IGF-1R. BLA aceptado con Priority Review + Breakthrough Therapy Designation. PDUFA: 30 junio 2026. Ensayos THRIVE y THRIVE2 cumplieron todos los endpoints primarios y secundarios. Competidor directo de teprotumumab.</p>
-      <a class="src-link" href="https://investors.viridiantherapeutics.com/news/news-details/2025/Viridian-Therapeutics-Announces-BLA-Acceptance-and-Priority-Review-for-Veligrotug-for-the-Treatment-of-Thyroid-Eye-Disease/default.aspx" target="_blank">&#8594; Viridian / BLA Acceptance Priority Review</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-purple">Fase 3 Positiva</span>
-      <h3>Elegrobart (Viridian) &mdash; REVEAL-1 Positiva para TED Activo (Marzo 2026)</h3>
-      <p>Elegrobart cumple endpoint primario: 4 semanas 54%, 8 semanas 63% vs. placebo 18% en proptosis responder rate. Resoluci&oacute;n completa de diplop&iacute;a en 51% a 24 semanas. BLA previsto Q1 2027.</p>
-      <a class="src-link" href="https://www.businesswire.com/news/home/20260330779172/en/Viridian-Therapeutics-Announces-Positive-Topline-Results-from-Elegrobart-Phase-3-REVEAL1-Clinical-Trial-in-Active-Thyroid-Eye-Disease" target="_blank">&#8594; BusinessWire / Elegrobart REVEAL-1 Positiva</a>
-    </div>
-    <div class="card yellow">
-      <span class="card-tag tag-yellow">Breakthrough Designation</span>
-      <h3>Privosegtor (OCS-05, Oculis) &mdash; Breakthrough Designation Neuritis &Oacute;ptica</h3>
-      <p>Fase 2 ACUITY: +18 letras ETDRS vs. placebo; reducci&oacute;n significativa de c&eacute;lulas ganglionares y RNFL thinning; sin eventos adversos serios. PIONEER-1 iniciado Q4 2025; PIONEER-2 planificado H1 2026 (EM y no-EM); PIONEER-3 para NAION mid-2026.</p>
-      <a class="src-link" href="https://www.ophthalmologytimes.com/view/fda-grants-breakthrough-therapy-designation-to-oculis-privosegtor-for-optic-neuritis" target="_blank">&#8594; Ophthalmology Times / Privosegtor Breakthrough</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Terapia G&eacute;nica GA</span>
-      <h3>OCU410 (Ocugen) &mdash; Terapia G&eacute;nica AAV5-RORA para Atrofia Geogr&aacute;fica: Datos +12M Positivos</h3>
-      <p>Subretinal gene therapy para AMD seca / GA (gen RORA). Datos preliminares positivos a 12 meses en Fase 2 (enero 2026). Abordaje &uacute;nico para condici&oacute;n sin cura actual.</p>
-      <a class="src-link" href="https://www.ophthalmologytimes.com/view/q1-2026-happenings-in-ophthalmology-major-highlights" target="_blank">&#8594; Ophthalmology Times / Q1 2026 Highlights</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-green">Terapia G&eacute;nica Retina</span>
-      <h3>OPGx-BEST1 (Opus Genetics) &mdash; +12 Letras BCVA en Bestrophinopat&iacute;a (Feb 2026)</h3>
-      <p>Datos Fase 1/2 a 3 meses: +12 letras de agudeza visual y reducci&oacute;n grosor CST. Para Best vitelliform macular dystrophy y Bestrophinopat&iacute;a AR. Condici&oacute;n hereditaria potencialmente presente en familias hispanas caribe&ntilde;as.</p>
-      <a class="src-link" href="https://www.ophthalmologytimes.com/view/q1-2026-happenings-in-ophthalmology-major-highlights" target="_blank">&#8594; Ophthalmology Times / Q1 2026 Highlights</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-purple">CRISPR C&oacute;rnea</span>
-      <h3>GenEditBio: IND Clearance para CLARITY &mdash; Primer CRISPR In Vivo en Distrofia Corneal TGFBI</h3>
-      <p>IND clearance enero 2026. Ensayo Fase 1/2 CLARITY eval&uacute;a seguridad y eficacia de terapia CRISPR in vivo para distrofia corneal TGFBI. Abordaje revolucionario con potencial de cura permanente de enfermedad corneal hereditaria.</p>
-      <a class="src-link" href="https://www.eyeworld.org/2026/eyeworld-weekly-january-16-2026/" target="_blank">&#8594; EyeWorld Weekly Enero 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-purple">Terapia G&eacute;nica RP</span>
-      <h3>SPVN20 (SparingVision) &mdash; Primera Dosificaci&oacute;n en NYRVANA para Retinitis Pigmentosa</h3>
-      <p>Terapia g&eacute;nica gene-agnostic para restaurar visi&oacute;n de conos en RP avanzada. Primer paciente dosificado en Fase 1/2 NYRVANA. Beacon Therapeutics (laru-zova) espera resultados de ensayo pivotal Fase 2/3 en 2026.</p>
-      <a class="src-link" href="https://www.fightingblindness.org/news/retinitis-pigmentosa-research-advances-899" target="_blank">&#8594; Foundation Fighting Blindness / RP Advances</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Retina / Anti-VEGF</span>
-      <h3>KSI-301 (Tarcocimab) &mdash; GLOW1 Fase 3: 41% Mejoran &#8805;2 Escalones DRSS en RD</h3>
-      <p>Anti-VEGF biopolymer conjugate de Kodiak Sciences. En GLOW1, 41.1% de pacientes con RD tratados con KSI-301 lograron mejor&iacute;a &#8805;2 escalones DRSS a 48 semanas. Alta relevancia para los ~19K pacientes diab&eacute;ticos de iOPR.</p>
-      <a class="src-link" href="https://accpjournals.onlinelibrary.wiley.com/doi/full/10.1002/phar.70119" target="_blank">&#8594; Pharmacotherapy Journal / DR Emerging Therapies</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Gene Therapy RD</span>
-      <h3>ABBV-RGX-314 y 4D-150 &mdash; Terapias G&eacute;nicas para RD/EMD en Fase Avanzada</h3>
-      <p>Dos vectores AAV en ensayos avanzados para retinopatia diab&eacute;tica y edema macular diab&eacute;tico. Potencial de dosis &uacute;nica con efecto sostenido multi-a&ntilde;o. Impacto enorme para la epidemia de RD en PR (33% prevalencia caribe&ntilde;a).</p>
-      <a class="src-link" href="https://www.retinaeyecme.com/post/latest-trends-in-retina-care-advancements-for-2026" target="_blank">&#8594; RetinaEye CME / Retina Advances 2026</a>
-    </div>
-    <div class="card red">
-      <span class="card-tag tag-red">CRL &mdash; Rechazado</span>
-      <h3>Reproxalap (Aldeyra) &mdash; Tercera CRL de la FDA para Ojo Seco</h3>
-      <p>Aldeyra recibe tercera carta de respuesta completa para reproxalap en ojo seco. La FDA no recomienda ensayos adicionales. Programa efectivamente terminado. Miebo (perfluorohexyloctane) permanece como opci&oacute;n m&aacute;s reciente para evaporaci&oacute;n lacrimal.</p>
-      <a class="src-link" href="https://ir.aldeyra.com/news-releases/news-release-details/aldeyra-therapeutics-receives-complete-response-letter-us-food-1" target="_blank">&#8594; Aldeyra / CRL Reproxalap FDA</a>
-    </div>
-    <div class="card yellow">
-      <span class="card-tag tag-yellow">Glaucoma Fase 3</span>
-      <h3>Qlaris &mdash; Estudio FIRECREST Fase 3: Combinaci&oacute;n con Latanoprost</h3>
-      <p>Completadas dos Fases 2; avanzando a Fase 3 con el estudio Firecrest, evaluando combinaci&oacute;n de dosis fija de compuesto Qlaris + latanoprost. Nueva clase de reducci&oacute;n de IOP para glaucoma con mecanismo &uacute;nico.</p>
-      <a class="src-link" href="https://www.reviewofophthalmology.com/article/the-2026-glaucoma-pipeline" target="_blank">&#8594; Review of Ophthalmology / Glaucoma Pipeline 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-yellow">Presbiopía</span>
-      <h3>Brimochol PF (Tenpoint Therapeutics) &mdash; Gota para Presbiopía: PDUFA Enero 2026</h3>
-      <p>Combinaci&oacute;n fija de brimonidine tartrate + carbachol para presbiopía. PDUFA target: 28 enero 2026. Apunta al mercado de boomers hispanos con presbiopía, prevalente en los pacientes &gt;45 a&ntilde;os de iOPR.</p>
-      <a class="src-link" href="https://glance.eyesoneyecare.com/stories/2026-01-02/what-to-keep-an-eye-on-in-2026/" target="_blank">&#8594; Eyes on Eyecare / What to Watch 2026</a>
-    </div>
-  </div>
+<div class="card">
+<h3>3. Retina y Terapia Génica: CRISPR Llega a Ensayos Clínicos</h3>
+<p><span class="tag tag-gene">TERAPIA GÉNICA</span> <strong>HG202</strong> (CRISPR-Cas13 RNA-editing) — primer ensayo Phase 1 (BRIGHT) para DMAE húmeda, iniciando 2026. Ixo-vec reduce inyecciones anti-VEGF 80% a 2 años. Phase 3 de ABBV-RGX-314 y 4D-150 resultados esperados 2026-2027. <a class="src-link" href="https://www.modernretina.com/view/the-gene-therapy-shift-a-closer-look-at-the-science-powering-next-generation-retinal-treatments" target="_blank">→ Modern Retina</a></p>
 </div>
 
-<!-- MERCADO Y NEGOCIO -->
-<div id="tab-mercado" class="tab-content">
-  <div class="section-hdr">
-    <span class="icon">&#128200;</span>
-    <h2>Mercado y Negocio en Oftalmolog&iacute;a</h2>
-    <span class="count">6 noticias</span>
-  </div>
-  <div class="cards-grid">
-    <div class="card">
-      <span class="card-tag tag-blue">Mercado Global</span>
-      <h3>Mercado Global de Oftalmolog&iacute;a: $55.5B en 2026 &#8594; $92.66B en 2035 (CAGR 5.26%)</h3>
-      <p>Crecimiento impulsado por envejecimiento, epidemia de DM, avances tecnol&oacute;gicos y penetraci&oacute;n en mercados emergentes. Dispositivos oftálmicos proyectados a $120B para 2033 (CAGR 5.1%). IA en oftalmolog&iacute;a crece al 36.8% CAGR.</p>
-      <a class="src-link" href="https://www.businessresearchinsights.com/market-reports/ophthalmology-market-125366" target="_blank">&#8594; Business Research Insights / Market 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-yellow">M&amp;A PE</span>
-      <h3>Private Equity en Oftalmolog&iacute;a: 40+ Transacciones; Valuaciones 10&ndash;15&times; EBITDA</h3>
-      <p>Pr&aacute;ctica plataforma: 10&ndash;15&times; EBITDA; add-ons: 6&ndash;10&times; EBITDA. El mercado M&amp;A de eye care se reactiva con fuerte impulso de PE en 2026. iOPR como plataforma en PR tiene ventajas &uacute;nicas: jurisdicci&oacute;n FDA, 100% hispano, alto volumen, datos de poblaci&oacute;n caribe&ntilde;a.</p>
-      <a class="src-link" href="https://focusbankers.com/ophthalmology-practice-valuation/" target="_blank">&#8594; FOCUS Investment Banking / Valuaciones 2026</a>
-    </div>
-    <div class="card red">
-      <span class="card-tag tag-red">M&amp;A Retina Record</span>
-      <h3>Cencora Adquiri&oacute; Retina Consultants of America por $4.6B &mdash; 18.4&times; EBITDA</h3>
-      <p>Adquisici&oacute;n r&eacute;cord muestra el valor estrat&eacute;gico de plataformas retina de alto volumen. Cencora y McKesson contin&uacute;an adquiriendo plataformas retina en 2026. Referencia clave para posicionamiento estrat&eacute;gico y valoraci&oacute;n de iOPR.</p>
-      <a class="src-link" href="https://www.stout.com/en/insights/industry-update/eyes-ophthalmology-ma-opportunities" target="_blank">&#8594; Stout / Eyes on Ophthalmology M&amp;A</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Regulaci&oacute;n</span>
-      <h3>ASCRS 2026: Intersecci&oacute;n de Oftalmolog&iacute;a y Gobierno como Tema Central</h3>
-      <p>Tema central del ASCRS 2026: c&oacute;mo pol&iacute;tica gubernamental y legislaci&oacute;n impactan la pr&aacute;ctica. "Business of Interventional Glaucoma" y SightLine preparan a l&iacute;deres para navegar cambios regulatorios y de reembolso en EE.UU.</p>
-      <a class="src-link" href="https://www.eyeworld.org/2026/program-chair-previews-ascrs-2026/" target="_blank">&#8594; EyeWorld / ASCRS 2026 Preview</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-green">Reembolso</span>
-      <h3>CXL Cumple 10 A&ntilde;os de Reembolso; Epioxa Abre Nueva Era de Codificaci&oacute;n</h3>
-      <p>El crosslinking corneal cumple 10 a&ntilde;os de reembolso en EE.UU. Con Epioxa (epi-on), se abren discusiones de nuevos c&oacute;digos CPT y estructura de reembolso. Importante para pr&aacute;ctica corneal de alto volumen como iOPR.</p>
-      <a class="src-link" href="https://ophthalmologymanagement.com/issues/2026/cornea-and-dry-eye/corneal-crosslinking-reimbursement-in-its-tenth-year/" target="_blank">&#8594; Ophthalmology Management / CXL Reimbursement 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Dispositivos</span>
-      <h3>Glaukos Presenta M&uacute;ltiples Abstracts en ASCRS 2026: Epioxa + iDose TR</h3>
-      <p>Glaukos presenta datos de Epioxa (CXL epi-on) e iDose TR (implante travoprost) en ASCRS 2026. Dos aprobaciones FDA recientes simult&aacute;neas posicionan a Glaukos como l&iacute;der en innovaci&oacute;n de dispositivos 2026.</p>
-      <a class="src-link" href="https://healthtechnologynet.com/2026/04/06/glaukos-to-present-multiple-scientific-abstracts-at-the-2026-american-society-of-cataract-and-refractive-surgery-ascrs-annual-meeting/" target="_blank">&#8594; Health Technology Net / Glaukos ASCRS 2026</a>
-    </div>
-  </div>
+<div class="card">
+<h3>4. Glaucoma: Nueva Generación MIGS y Drug Delivery</h3>
+<p><span class="tag tag-device">DISPOSITIVO</span> <strong>eyeFlow microstent</strong> con reservorio drug-eluting (12 meses). <strong>iDose TREX</strong> (travoprost extendido). BIM-IOL (bimatoprost + IOL, ~3 años). Láser femtosegundo ViaLase y excímer ELIOS de Bausch + Lomb en investigación. <a class="src-link" href="https://www.reviewofophthalmology.com/article/the-2026-glaucoma-pipeline" target="_blank">→ Review of Ophthalmology</a></p>
 </div>
 
-<!-- CONTROL DE MIOPIA -->
-<div id="tab-miopia" class="tab-content">
-  <div class="section-hdr">
-    <span class="icon">&#128083;</span>
-    <h2>Control de Miop&iacute;a y Presbiopía</h2>
-    <span class="count">5 noticias</span>
-  </div>
-  <div class="cards-grid">
-    <div class="card">
-      <span class="card-tag tag-blue">Combinaci&oacute;n OrthoK+Atropina</span>
-      <h3>Terapia Secuencial OrthoK + Atropina Escalante: Reducci&oacute;n Axial hasta 39.4%</h3>
-      <p>Estudio 2025 eval&uacute;a por primera vez concentraciones escalonadas (0.01%, 0.025%, 0.05%) de atropina en combinaci&oacute;n con OrthoK: reducci&oacute;n de elongaci&oacute;n axial de 28.4%, 31.4% y 39.4% respectivamente. Primera evaluaci&oacute;n dosis-dependiente en combinaci&oacute;n secuencial.</p>
-      <a class="src-link" href="https://www.nature.com/articles/s41598-025-22722-8" target="_blank">&#8594; Scientific Reports / OrthoK Atropina Secuencial 2025</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-green">IMI 2025</span>
-      <h3>IMI 2025: Consolida Evidencia para Atropina 0.01&ndash;0.05%, OrthoK y Lentes Defocalizantes</h3>
-      <p>Reporte IMI 2025 consolida evidencia para intervenciones de control de miop&iacute;a: atropina baja concentraci&oacute;n, ortoqueratolog&iacute;a y lentes de dise&ntilde;o defocalizante (MiSight, etc.) como estrategias establecidas para ni&ntilde;os 8&ndash;14 a&ntilde;os.</p>
-      <a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12448128/" target="_blank">&#8594; PMC / IMI Interventions Myopia 2025</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Epidemia Global</span>
-      <h3>Revisi&oacute;n 2026: ~50% Poblaci&oacute;n Mundial Mi&oacute;pe para 2050 &mdash; Estrategias Actuales</h3>
-      <p>La epidemia de miop&iacute;a afectar&aacute; ~50% de la poblaci&oacute;n para 2050. Tiempo exterior, atropina y OrthoK son pilares; nuevas lentes farmacol&oacute;gicas en pipeline. Preocupaci&oacute;n especial en ni&ntilde;os hispanos en el Caribe.</p>
-      <a class="src-link" href="https://www.mdpi.com/2077-0383/15/4/1545" target="_blank">&#8594; MDPI / Myopia Control Review 2026</a>
-    </div>
-    <div class="card yellow">
-      <span class="card-tag tag-yellow">Presbiopía</span>
-      <h3>Brimochol PF &mdash; Gota para Presbiopía (Brimonidine + Carbachol): PDUFA Enero 2026</h3>
-      <p>Tenpoint Therapeutics busca aprobaci&oacute;n para primera combinaci&oacute;n fija brimonidine-carbachol para presbiopía. Dirigido a boomers hispanos &gt;45 a&ntilde;os. Potencial de alto volumen en iOPR.</p>
-      <a class="src-link" href="https://glance.eyesoneyecare.com/stories/2026-01-02/what-to-keep-an-eye-on-in-2026/" target="_blank">&#8594; Eyes on Eyecare / Watch List 2026</a>
-    </div>
-    <div class="card">
-      <span class="card-tag tag-blue">Perspectiva Hispana</span>
-      <h3>Pacientes Latinx Prefieren Teleoftalmolog&iacute;a pero Requieren Supervisi&oacute;n Humana</h3>
-      <p>Estudio cualitativo (PMC 2024) muestra que pacientes latinx con DM prefieren teleoftalmolog&iacute;a vs. examen dilatado convencional, pero prefieren supervisi&oacute;n humana sobre IA aut&oacute;noma. Insight cr&iacute;tico para dise&ntilde;ar programa de tamizaje hiper-localizado en iOPR.</p>
-      <a class="src-link" href="https://pubmed.ncbi.nlm.nih.gov/37908628/" target="_blank">&#8594; PubMed / Latinx Teleophthalmology Perspectives</a>
-    </div>
-  </div>
+<div class="card">
+<h3>5. Ojo Seco: Reproxalap Recibe Tercera CRL</h3>
+<p><span class="tag tag-new">ALERTA</span> FDA emitió tercera Complete Response Letter a reproxalap (Aldeyra) en marzo 2026, citando falta de evidencia de eficacia. NOV03 (Bausch+Lomb, perfluorohexiloctano + omega-3) sigue mostrando datos prometedores. <a class="src-link" href="https://www.hcplive.com/view/fda-issues-third-reproxalap-crl-for-dry-eye-disease" target="_blank">→ HCPLive</a></p>
 </div>
 
-<!-- OPORTUNIDADES IIT -->
-<div id="tab-iit" class="tab-content">
-  <div class="section-hdr">
-    <span class="icon">&#128300;</span>
-    <h2>Oportunidades para IIT &mdash; iOPR como Sitio Investigador</h2>
-  </div>
-
-  <div style="background:#dbeafe; border:1px solid #3b82f6; border-radius:10px; padding:1rem 1.2rem; margin-bottom:1.5rem; font-size:0.88rem;">
-    <strong style="color:#1e40af;">&#128161; Ventaja Estrat&eacute;gica de iOPR:</strong> Puerto Rico = jurisdicci&oacute;n FDA + 100% hispano + 58,000+ pacientes activos + prevalencias elevadas de DM, glaucoma y enfermedades gen&eacute;ticas. Solo el 3.4% de participantes en ensayos de glaucoma son hispanos &mdash; <strong>iOPR puede cambiar esa estad&iacute;stica.</strong>
-  </div>
-
-  <div class="iit-table-wrap">
-    <table class="iit-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Nombre del Estudio Propuesto</th>
-          <th>&Aacute;rea</th>
-          <th>Concepto / Justificaci&oacute;n</th>
-          <th>Pool iOPR Estimado</th>
-          <th>Sponsor Potencial</th>
-          <th>Prioridad</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>1</strong></td>
-          <td><strong>PRDR-AI Study</strong><br><em>Validaci&oacute;n de IA Aut&oacute;noma para RD en Hispanos de PR</em></td>
-          <td>Retina / IA</td>
-          <td>Validar EyeArt o IDx-DR en pacientes hispanohablantes con DM. PR tiene ~33% prevalencia RD; hispanos subrepresentados en datasets de entrenamiento. Protocolo prospectivo 500&ndash;1,000 pacientes.</td>
-          <td>~19,000 pacientes DM</td>
-          <td>Eyenuk Inc., AEYE Health, NIH NCMHD, NEI<br><em>info@eyenuk.com</em></td>
-          <td><span class="priority-high">ALTA</span></td>
-        </tr>
-        <tr>
-          <td><strong>2</strong></td>
-          <td><strong>iDOSE-HISP Study</strong><br><em>iDose TR en Hispanos con Glaucoma: Adherencia y Eficacia 2 A&ntilde;os</em></td>
-          <td>Glaucoma</td>
-          <td>Hispanohablantes tienen peor adherencia a gotas. iDose TR elimina esa barrera. IIT prospectivo 100&ndash;200 pacientes POAG/OHT. Outcomes: IOP, progresi&oacute;n perimetría, QoL.</td>
-          <td>~3,000 pacientes glaucoma</td>
-          <td>Glaukos Corporation<br><em>IIT Grant Program</em></td>
-          <td><span class="priority-high">ALTA</span></td>
-        </tr>
-        <tr>
-          <td><strong>3</strong></td>
-          <td><strong>PIONEER-PR</strong><br><em>Sub-sitio del Pivotal PIONEER-2/3 de Privosegtor en PR</em></td>
-          <td>Neuro-Oftalmo</td>
-          <td>Solicitar a Oculis ser sitio de PIONEER-2/3. Datos ACUITY: +18 letras ETDRS, reducci&oacute;n RNFL. Pacientes con EM u ON idiop&aacute;tica/NAION. Ventaja: diversidad &eacute;tnica hispana &uacute;nica.</td>
-          <td>~200&ndash;400 pacientes ON/a&ntilde;o</td>
-          <td>Oculis SA<br><em>clinicaltrials@oculis.com</em></td>
-          <td><span class="priority-high">ALTA</span></td>
-        </tr>
-        <tr>
-          <td><strong>4</strong></td>
-          <td><strong>RETINA-GENE-PR</strong><br><em>Acceso Expandido a 4D-150 y ABBV-RGX-314 para RD/EMD en PR</em></td>
-          <td>Retina / G&eacute;nica</td>
-          <td>Solicitar a 4D Molecular Therapeutics y AbbVie/REGENXBIO apertura de sitio en PR. Justificaci&oacute;n: 33% RD caribe&ntilde;a + jurisdicci&oacute;n FDA + poblaci&oacute;n na&iuml;ve a terapia g&eacute;nica + 19K pacientes DM.</td>
-          <td>~5,000 pacientes RD/EMD</td>
-          <td>4D Molecular Therapeutics, AbbVie/REGENXBIO</td>
-          <td><span class="priority-high">ALTA</span></td>
-        </tr>
-        <tr>
-          <td><strong>5</strong></td>
-          <td><strong>VELI-TED-PR</strong><br><em>Veligrotug en TED Hispano: Outcomes y Calidad de Vida Post-Aprobaci&oacute;n</em></td>
-          <td>Oculopl&aacute;stica / TED</td>
-          <td>Solicitar a Viridian participaci&oacute;n en expansi&oacute;n post-aprobaci&oacute;n (PMC) en hispanos. TED subdiagnosticada en hispanos. Colectar datos proptosis, diplop&iacute;a, QoL en PR. Decisi&oacute;n FDA esperada junio 2026.</td>
-          <td>~300&ndash;500 pacientes TED</td>
-          <td>Viridian Therapeutics</td>
-          <td><span class="priority-med">MEDIA</span></td>
-        </tr>
-        <tr>
-          <td><strong>6</strong></td>
-          <td><strong>CONTROL-MIOPIA-PR</strong><br><em>OrthoK + Atropina Escalante en Ni&ntilde;os Hispanos de PR: 3 A&ntilde;os</em></td>
-          <td>Control Miop&iacute;a</td>
-          <td>Basado en datos 2025 de combinaci&oacute;n secuencial. Extensi&oacute;n a poblaci&oacute;n pedi&aacute;trica hispana de PR. Evaluar elongaci&oacute;n axial con 0.01%, 0.025% y 0.05% atropina + OrthoK vs. monoterapia. n=150 ni&ntilde;os 8&ndash;14 a&ntilde;os.</td>
-          <td>~500&ndash;1,000 pedi&aacute;tricos miopes</td>
-          <td>Santen, CooperVision, NEI, Fundaci&oacute;n PAAO</td>
-          <td><span class="priority-med">MEDIA</span></td>
-        </tr>
-        <tr>
-          <td><strong>7</strong></td>
-          <td><strong>CRISPR-CORNEA-PR</strong><br><em>Participaci&oacute;n como Sitio en CLARITY Trial (GenEditBio TGFBI)</em></td>
-          <td>C&oacute;rnea / G&eacute;nica</td>
-          <td>Distrofia corneal TGFBI presente en familias caribe&ntilde;as. IND clearance enero 2026. Solicitar participaci&oacute;n en Fase 1/2 CLARITY. iOPR como &uacute;nico sitio FDA en el Caribe con banco de tejido corneal.</td>
-          <td>~50&ndash;100 pacientes TGFBI</td>
-          <td>GenEditBio</td>
-          <td><span class="priority-med">MEDIA</span></td>
-        </tr>
-        <tr>
-          <td><strong>8</strong></td>
-          <td><strong>TELE-GLAU-PR</strong><br><em>Monitoreo Remoto de Glaucoma con IA y Tonom&eacute;tria Digital en PR</em></td>
-          <td>Glaucoma / Telemedicina</td>
-          <td>Protocolo de manejo usando ton&oacute;metro digital de hogar (iCare HOME2), OCT remoto y visita virtual. Evaluar equivalencia con seguimiento presencial. Plataforma escalable para 58K pacientes de iOPR.</td>
-          <td>~3,000 pacientes glaucoma</td>
-          <td>iCare Finland, Centervue, NIH STTR/SBIR</td>
-          <td><span class="priority-med">MEDIA</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div style="background:#d1fae5; border:1px solid #059669; border-radius:10px; padding:1rem 1.2rem; margin-top:1rem; font-size:0.88rem;">
-    <strong style="color:#065f46;">&#128231; Acci&oacute;n Inmediata Recomendada:</strong> Contactar esta semana a <strong>Glaukos Corporation</strong> (IIT Grant iDose TR), <strong>Oculis SA</strong> (PIONEER-2 sitio) y <strong>AEYE Health / Eyenuk</strong> (PRDR-AI Study). Preparar carta de inter&eacute;s de 1 p&aacute;gina enfatizando: 58,000 pacientes activos, 100% hispano, jurisdicci&oacute;n FDA, infraestructura cl&iacute;nica y prevalencias elevadas en PR.
-    <br><br>
-    <a class="src-link" href="https://clinicaltrials.gov/search?cond=ophthalmology&recrs=b&country=PR" target="_blank">&#8594; ClinicalTrials.gov &mdash; Ensayos Activos en PR</a>
-    &nbsp;&nbsp;
-    <a class="src-link" href="https://tfscro.com/resources/arvo-2025-highlights-driving-innovation-in-ophthalmic-drug-development/" target="_blank">&#8594; ARVO 2025 / IIT Development Insights</a>
-  </div>
+<div class="card">
+<h3>6. TEPEZZA Subcutáneo: Datos Phase 3 Positivos</h3>
+<p><span class="tag tag-trial">ENSAYO FASE 3</span> Amgen reportó resultados positivos del Phase 3 de TEPEZZA subcutáneo (on-body injector) para TED activa moderada-severa. Tasa de respuesta de proptosis: <strong>77%</strong>. Potencial para autoadministración. <a class="src-link" href="https://www.amgen.com/newsroom/press-releases/2026/04/amgen-announces-positive-topline-phase-3-results-for-subcutaneous-tepezza-in-adults-living-with-moderate-to-severe-active-thyroid-eye-disease" target="_blank">→ Amgen</a></p>
 </div>
 
-<!-- CONGRESOS -->
-<div id="tab-congresos" class="tab-content">
-  <div class="section-hdr">
-    <span class="icon">&#128197;</span>
-    <h2>Calendario de Congresos Oftalmol&oacute;gicos 2026&ndash;2027</h2>
-  </div>
-  <div style="overflow-x:auto; border-radius:10px; margin-bottom:1.5rem;">
-    <table class="cong-table">
-      <thead>
-        <tr>
-          <th>Congreso</th>
-          <th>Fecha</th>
-          <th>Lugar</th>
-          <th>Enfoque Principal</th>
-          <th>Enlace</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="cong-now">
-          <td>&#128308; <strong>ASCRS 2026 Annual Meeting</strong></td>
-          <td><strong>10&ndash;13 Abril 2026</strong></td>
-          <td>Washington, D.C., EE.UU.</td>
-          <td>Cataratas, refractiva, glaucoma, IA quir&uacute;rgica, Epioxa, iDose TR &mdash; &#161;ESTA SEMANA!</td>
-          <td><a href="https://annualmeeting.ascrs.org/" target="_blank" class="src-link">&#8594; ASCRS.org</a></td>
-        </tr>
-        <tr>
-          <td><strong>ARVO 2026</strong></td>
-          <td>Mayo 2026</td>
-          <td>Salt Lake City, EE.UU.</td>
-          <td>Investigaci&oacute;n b&aacute;sica y traslacional en visi&oacute;n</td>
-          <td><a href="https://www.arvo.org/" target="_blank" class="src-link">&#8594; ARVO.org</a></td>
-        </tr>
-        <tr class="cong-soon">
-          <td>&#127997; <strong>WOC 2026 &mdash; World Ophthalmology Congress</strong></td>
-          <td>26&ndash;29 Junio 2026</td>
-          <td>Praga, Rep&uacute;blica Checa</td>
-          <td>Congreso mundial &mdash; todas las subespecialidades</td>
-          <td><a href="https://www.healio.com/news/ophthalmology/meeting-news/meeting-calendar" target="_blank" class="src-link">&#8594; Healio Calendar</a></td>
-        </tr>
-        <tr>
-          <td><strong>APGC 2026</strong></td>
-          <td>24&ndash;26 Julio 2026</td>
-          <td>Singapur</td>
-          <td>Glaucoma &mdash; Asia Pac&iacute;fico</td>
-          <td><a href="https://apaophth.org/congress/calendar/" target="_blank" class="src-link">&#8594; APAO Calendar</a></td>
-        </tr>
-        <tr class="cong-soon">
-          <td>&#127997; <strong>AAO 2026 Annual Meeting</strong></td>
-          <td>9&ndash;12 Octubre 2026</td>
-          <td>Nueva Orleans, EE.UU.</td>
-          <td>Congreso principal AAO &mdash; todas las &aacute;reas cl&iacute;nicas y quir&uacute;rgicas</td>
-          <td><a href="https://www.aao.org/" target="_blank" class="src-link">&#8594; AAO.org</a></td>
-        </tr>
-        <tr>
-          <td><strong>PAAO 2026</strong></td>
-          <td>2026 TBD</td>
-          <td>Am&eacute;rica Latina</td>
-          <td>Pan American Association of Ophthalmology</td>
-          <td><a href="https://paao.org/" target="_blank" class="src-link">&#8594; PAAO.org</a></td>
-        </tr>
-        <tr>
-          <td><strong>APAO 2027</strong></td>
-          <td>18&ndash;21 Marzo 2027</td>
-          <td>Singapur</td>
-          <td>Asia-Pacific Academy of Ophthalmology</td>
-          <td><a href="https://apaophth.org/congress/calendar/" target="_blank" class="src-link">&#8594; APAO Calendar</a></td>
-        </tr>
-        <tr>
-          <td><strong>AAO Mid-Year Forum 2027</strong></td>
-          <td>7&ndash;10 Abril 2027</td>
-          <td>Washington, D.C., EE.UU.</td>
-          <td>Pol&iacute;tica, defensa y liderazgo</td>
-          <td><a href="https://www.aao.org/" target="_blank" class="src-link">&#8594; AAO.org</a></td>
-        </tr>
-        <tr>
-          <td><strong>WGC 2027 &mdash; World Glaucoma Congress</strong></td>
-          <td>20&ndash;23 Abril 2027</td>
-          <td>Kioto, Jap&oacute;n</td>
-          <td>Glaucoma &mdash; Congreso Mundial</td>
-          <td><a href="https://www.market-scope.com/pages/news/7134/2026-ophthalmic-meetings-calendar" target="_blank" class="src-link">&#8594; Market Scope</a></td>
-        </tr>
-        <tr>
-          <td><strong>ARVO 2027</strong></td>
-          <td>2&ndash;6 Mayo 2027</td>
-          <td>San Diego, EE.UU.</td>
-          <td>Investigaci&oacute;n b&aacute;sica y traslacional en visi&oacute;n</td>
-          <td><a href="https://www.arvo.org/" target="_blank" class="src-link">&#8594; ARVO.org</a></td>
-        </tr>
-        <tr>
-          <td><strong>AAO 2027 Annual Meeting</strong></td>
-          <td>12&ndash;15 Noviembre 2027</td>
-          <td>Las Vegas, EE.UU.</td>
-          <td>Congreso principal AAO</td>
-          <td><a href="https://www.aao.org/" target="_blank" class="src-link">&#8594; AAO.org</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div style="background:#fef3c7; border:1px solid #d97706; border-radius:8px; padding:0.8rem 1rem; font-size:0.85rem;">
-    &#127997; <strong>Acci&oacute;n Urgente:</strong> AAO 2026 &mdash; <em>Nueva Orleans, 9&ndash;12 Octubre 2026</em>. Registrarse y someter abstracts (~deadline Mayo 2026). Considerar case series de alto volumen hispano o datos preliminares de IIT.
-  </div>
+<div class="card iit">
+<h3>7. Oportunidades IIT Destacadas para iOPR</h3>
+<p><span class="tag tag-iit">IIT PRIORITARIO</span> Puerto Rico ofrece jurisdicción FDA + 100% población hispana + 58K pacientes = ventaja competitiva única para ensayos clínicos que necesitan representación hispana. Se identifican 6+ propuestas IIT concretas en la pestaña de Oportunidades IIT.</p>
+</div>
 </div>
 
-<!-- FUENTES -->
-<div id="tab-fuentes" class="tab-content">
-  <div class="section-hdr">
-    <span class="icon">&#128218;</span>
-    <h2>Fuentes Consultadas</h2>
-  </div>
-  <h3 style="color:var(--primary);margin-bottom:0.7rem;font-size:1rem;">Journals y Publicaciones Cient&iacute;ficas</h3>
-  <ul class="sources-list" style="margin-bottom:1.5rem;">
-    <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12044197/" target="_blank">PMC &mdash; AI in Ophthalmology Public Health</a></li>
-    <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11668219/" target="_blank">PMC &mdash; Recent Advances Neuro-Ophthalmology</a></li>
-    <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12448128/" target="_blank">PMC &mdash; IMI Interventions Myopia 2025</a></li>
-    <li><a href="https://www.nature.com/articles/s41598-025-22722-8" target="_blank">Scientific Reports &mdash; OrthoK + Atropina Secuencial</a></li>
-    <li><a href="https://accpjournals.onlinelibrary.wiley.com/doi/full/10.1002/phar.70119" target="_blank">Pharmacotherapy &mdash; DR/DME Therapies 2026</a></li>
-    <li><a href="https://www.mdpi.com/2077-0383/15/4/1545" target="_blank">MDPI &mdash; Myopia Control Review 2026</a></li>
-    <li><a href="https://www.sciencedirect.com/science/article/pii/S1350946225000473" target="_blank">ScienceDirect &mdash; AI Ophthalmology Ethics</a></li>
-    <li><a href="https://pubmed.ncbi.nlm.nih.gov/37908628/" target="_blank">PubMed &mdash; Latinx Teleophthalmology Perspectives</a></li>
-    <li><a href="https://link.springer.com/article/10.1007/s13353-025-00973-5" target="_blank">J. Applied Genetics &mdash; Gene Therapy Ophthalmology</a></li>
-    <li><a href="https://www.nature.com/articles/s41433-024-03188-w" target="_blank">Eye (Nature) &mdash; Neuro-ophthalmology Shifts</a></li>
-    <li><a href="https://www.ophthalmologyscience.org/article/S2666-9145(25)00233-7/fulltext" target="_blank">Ophthalmology Science &mdash; AI DR Screening Adoption</a></li>
-    <li><a href="https://pubmed.ncbi.nlm.nih.gov/40965251/" target="_blank">PubMed &mdash; Gene Therapy Eye Diseases Update</a></li>
-  </ul>
-  <h3 style="color:var(--primary);margin-bottom:0.7rem;font-size:1rem;">Medios de Industria Oftalmol&oacute;gica</h3>
-  <ul class="sources-list" style="margin-bottom:1.5rem;">
-    <li><a href="https://www.ophthalmologytimes.com/view/q1-2026-happenings-in-ophthalmology-major-highlights" target="_blank">Ophthalmology Times &mdash; Q1 2026 Highlights</a></li>
-    <li><a href="https://www.ophthalmologytimes.com/view/innovations-in-glaucoma-poised-for-breakthrough-in-2026-and-what-might-hold-the-back-" target="_blank">Ophthalmology Times &mdash; Glaucoma 2026</a></li>
-    <li><a href="https://www.ophthalmologytimes.com/view/how-ai-is-reshaping-ophthalmology-in-2025-and-beyond" target="_blank">Ophthalmology Times &mdash; AI Reshaping</a></li>
-    <li><a href="https://www.eyeworld.org/2026/eyeworld-weekly-april-3-2026/" target="_blank">EyeWorld Weekly &mdash; April 3, 2026</a></li>
-    <li><a href="https://www.eyeworld.org/2026/program-chair-previews-ascrs-2026/" target="_blank">EyeWorld &mdash; ASCRS 2026 Preview</a></li>
-    <li><a href="https://www.reviewofophthalmology.com/article/the-2026-glaucoma-pipeline" target="_blank">Review of Ophthalmology &mdash; Glaucoma Pipeline</a></li>
-    <li><a href="https://www.retinalphysician.com/issues/2026/march-april/clinical-trial-update/" target="_blank">Retinal Physician &mdash; Trial Update Q1 2026</a></li>
-    <li><a href="https://www.modernretina.com/view/aao-highlight-looking-ahead-to-2026" target="_blank">Modern Retina &mdash; Looking Ahead 2026</a></li>
-    <li><a href="https://www.retinaeyecme.com/post/latest-trends-in-retina-care-advancements-for-2026" target="_blank">RetinaEye CME &mdash; Trends 2026</a></li>
-    <li><a href="https://www.ophthalmologyadvisor.com/news/veligrotug-receives-fda-priority-review-for-thyroid-eye-disease/" target="_blank">Ophthalmology Advisor &mdash; Veligrotug</a></li>
-    <li><a href="https://www.ophthalmologyadvisor.com/news/novel-corneal-cross-linking-therapy-epioxa-approved-for-keratoconus/" target="_blank">Ophthalmology Advisor &mdash; Epioxa</a></li>
-    <li><a href="https://glance.eyesoneyecare.com/stories/2026-01-02/what-to-keep-an-eye-on-in-2026/" target="_blank">Eyes on Eyecare &mdash; Watch List 2026</a></li>
-    <li><a href="https://www.healio.com/news/ophthalmology/20251223/thyroid-eye-disease-treatment-receives-priority-review-pdufa-date" target="_blank">Healio &mdash; Veligrotug PDUFA</a></li>
-    <li><a href="https://ophthalmologymanagement.com/issues/2026/cornea-and-dry-eye/corneal-crosslinking-reimbursement-in-its-tenth-year/" target="_blank">Ophthalmology Management &mdash; CXL 10 Years</a></li>
-    <li><a href="https://medicalxpress.com/news/2026-04-ai-patient-eye.html" target="_blank">MedicalXpress &mdash; AI Patient Education Eye 2026</a></li>
-    <li><a href="https://www.diabetesincontrol.com/diabetic-retinopathy-screening-2026/" target="_blank">Diabetes In Control &mdash; RD AI Screening 2026</a></li>
-    <li><a href="https://www.virtualfield.io/blog/revolutionizing-ophthalmology-a-deep-dive-into-the-latest-ai-developments" target="_blank">VirtualField &mdash; AI Ophthalmology 2026</a></li>
-  </ul>
-  <h3 style="color:var(--primary);margin-bottom:0.7rem;font-size:1rem;">Comunicados Corporativos y Regulatorios</h3>
-  <ul class="sources-list" style="margin-bottom:1.5rem;">
-    <li><a href="https://investors.glaukos.com/news/news-details/2026/Glaukos-Announces-US-FDA-Approval-of-NDA-Supplement-Allowing-for-Re-Administration-of-iDose-TR/default.aspx" target="_blank">Glaukos &mdash; iDose TR Re-Admin Jan 2026</a></li>
-    <li><a href="https://investors.glaukos.com/news/news-details/2025/Glaukos-Announces-FDA-Approval-of-Epioxa/default.aspx" target="_blank">Glaukos &mdash; Epioxa FDA Approval</a></li>
-    <li><a href="https://investors.viridiantherapeutics.com/news/news-details/2025/Viridian-Therapeutics-Announces-BLA-Acceptance-and-Priority-Review-for-Veligrotug-for-the-Treatment-of-Thyroid-Eye-Disease/default.aspx" target="_blank">Viridian &mdash; BLA Acceptance Veligrotug</a></li>
-    <li><a href="https://www.businesswire.com/news/home/20260330779172/en/Viridian-Therapeutics-Announces-Positive-Topline-Results-from-Elegrobart-Phase-3-REVEAL1-Clinical-Trial-in-Active-Thyroid-Eye-Disease" target="_blank">BusinessWire &mdash; Elegrobart REVEAL-1 2026</a></li>
-    <li><a href="https://ir.aldeyra.com/news-releases/news-release-details/aldeyra-therapeutics-receives-complete-response-letter-us-food-1" target="_blank">Aldeyra &mdash; CRL Reproxalap FDA</a></li>
-    <li><a href="https://www.roche.com/media/releases/med-cor-2025-05-22" target="_blank">Roche &mdash; Susvimo FDA Approval DR</a></li>
-    <li><a href="https://www.prnewswire.com/news-releases/zeiss-advances-connected-cataract-and-refractive-workflows-with-new-digital-ai-and-surgical-innovations-at-ascrs-302732313.html" target="_blank">PR Newswire &mdash; ZEISS AI ASCRS 2026</a></li>
-    <li><a href="https://www.globenewswire.com/news-release/2026/01/08/3215082/0/en/Oculis-to-Showcase-Transformative-Late-stage-Pipeline-in-Neuro-ophthalmology-and-Ophthalmology-at-the-2026-J-P-Morgan-Healthcare-Conference.html" target="_blank">GlobeNewswire &mdash; Oculis JP Morgan 2026</a></li>
-    <li><a href="https://healthtechnologynet.com/2026/04/06/glaukos-to-present-multiple-scientific-abstracts-at-the-2026-american-society-of-cataract-and-refractive-surgery-ascrs-annual-meeting/" target="_blank">Health Technology Net &mdash; Glaukos ASCRS</a></li>
-  </ul>
-  <h3 style="color:var(--primary);margin-bottom:0.7rem;font-size:1rem;">Ensayos Cl&iacute;nicos y Calendarios</h3>
-  <ul class="sources-list">
-    <li><a href="https://clinicaltrials.gov/search?cond=ophthalmology&recrs=b&country=PR" target="_blank">ClinicalTrials.gov &mdash; Ensayos Activos en PR</a></li>
-    <li><a href="https://annualmeeting.ascrs.org/" target="_blank">ASCRS 2026 &mdash; Programa Oficial</a></li>
-    <li><a href="https://www.market-scope.com/pages/news/7134/2026-ophthalmic-meetings-calendar" target="_blank">Market Scope &mdash; Ophthalmic Calendar 2026</a></li>
-    <li><a href="https://www.healio.com/news/ophthalmology/meeting-news/meeting-calendar" target="_blank">Healio &mdash; Ophthalmology Meeting Calendar</a></li>
-    <li><a href="https://www.guidelinecentral.com/insights/jan-2026-glaucoma-trial-rundown/" target="_blank">Guideline Central &mdash; Glaucoma Trials 2026</a></li>
-    <li><a href="https://tfscro.com/resources/arvo-2025-highlights-driving-innovation-in-ophthalmic-drug-development/" target="_blank">ARVO 2025 Highlights &mdash; Drug Development</a></li>
-    <li><a href="https://www.guidelinecentral.com/insights/jan-2026-glaucoma-trial-rundown/" target="_blank">Guideline Central &mdash; 5 Glaucoma Trials Recruiting</a></li>
-  </ul>
+<\!-- ==================== IA Y TECNOLOGÍA ==================== -->
+<div class="tab-content" id="ia">
+<h2 class="section-title">IA y Tecnología en Oftalmología</h2>
+
+<div class="card">
+<h3><span class="tag tag-ai">IA DIAGNÓSTICA</span> Sistemas Multimodales de Soporte Clínico</h3>
+<p>Los avances más significativos provienen de sistemas de IA clínicamente integrados, multimodales y prospectivos, incluyendo herramientas de soporte decisional, que van más allá del diagnóstico aislado. La IA analiza imágenes retinianas para detectar anomalías sutiles, y herramientas FDA-aprobadas ya realizan screening automatizado de retinopatía diabética en múltiples entornos clínicos. <a class="src-link" href="https://healthcare.utah.edu/moran/news/2026/01/powering-hope-rise-of-ai-ophthalmology" target="_blank">→ Moran Eye Center</a></p>
+<p><strong>Impacto para iOPR:</strong> Con 58K+ pacientes y alta prevalencia de DM, implementar IA para screening de RD podría capturar casos tempranos significativos.</p>
 </div>
 
-</main>
+<div class="card">
+<h3><span class="tag tag-ai">IA QUIRÚRGICA</span> IA en Planificación y Ejecución Quirúrgica</h3>
+<p>En cirugía de catarata, algoritmos avanzados asisten en la selección óptima de IOL. En cirugía refractiva (LASIK, SMILE, PRK), la IA proporciona retroalimentación en tiempo real, optimiza parámetros quirúrgicos, patrones de ablación, alineación de lentes e incisiones. Sistemas de imagen de alta velocidad analizan feeds quirúrgicos en vivo. <a class="src-link" href="https://www.ophthalmologytimes.com/view/how-ai-is-reshaping-ophthalmology-in-2025-and-beyond" target="_blank">→ Ophthalmology Times</a></p>
+</div>
 
-<footer>
-  <strong>Instituto de Ojos de Puerto Rico (iOPR)</strong> &nbsp;|&nbsp;
-  Reporte Semanal de Tendencias en Salud Visual &nbsp;|&nbsp;
-  Generado autom&aacute;ticamente el <strong>8 de Abril de 2026</strong> &nbsp;|&nbsp;
-  Uso interno &mdash; Direcci&oacute;n Ejecutiva y Direcci&oacute;n M&eacute;dica &nbsp;|&nbsp;
-  <a href="https://salimperez974.github.io/rpt-2026-7x40/" style="color:#1abc9c;">Ver reporte en l&iacute;nea</a>
-</footer>
+<div class="card">
+<h3><span class="tag tag-ai">IA</span> Glaucoma: Individualización de Terapia con IA</h3>
+<p>IA para planificación de tratamiento permite individualizar la terapia en glaucoma, identificando la trayectoria de cada paciente y permitiendo tratamiento basado en la probabilidad de progresión y su velocidad. Algoritmos predictivos integran OCT, campos visuales y datos demográficos. <a class="src-link" href="https://europe.ophthalmologytimes.com/view/igs-2026-the-expanding-role-of-artificial-intelligence-in-ophthalmology" target="_blank">→ OT Europe / IGS 2026</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-ai">IA PHARMA</span> Aceleración del Desarrollo Farmacéutico</h3>
+<p>La IA reduce el tiempo de desarrollo preclínico en más del 60% y aumenta la probabilidad de éxito clínico, particularmente en fármacos basados en proteínas, mejorando las predicciones de eficacia, seguridad y manufacturabilidad. Esto tiene implicaciones directas para acortar el pipeline de nuevos tratamientos oftalmológicos. <a class="src-link" href="https://www.nature.com/articles/s41746-025-01954-y" target="_blank">→ npj Digital Medicine</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-ai">IA</span> Scribes Clínicos y Documentación Automatizada</h3>
+<p>Herramientas de IA que soportan flujos de trabajo médico — incluyendo scribes clínicos ambientales y documentación automatizada — están teniendo impacto significativo al reducir la carga administrativa de los oftalmólogos. Estas herramientas capturan la consulta, generan notas y codifican procedimientos. <a class="src-link" href="https://www.sciencedirect.com/science/article/pii/S1350946225000473" target="_blank">→ ScienceDirect</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-ai">TELEOFT</span> Teleoftalmología y Monitoreo Remoto</h3>
+<p>Dispositivos OCT domiciliarios permiten a pacientes auto-administrar scans y enviar resultados para monitoreo remoto. Lentes de contacto con sensores integrados y wearables permiten monitoreo continuo de PIO. Cámaras fundoscópicas de smartphone y apps con IA para screening visual están expandiendo acceso en áreas desatendidas. <a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11540653/" target="_blank">→ PMC/Teleophthalmology Review</a></p>
+<p><strong>Impacto para iOPR:</strong> Puerto Rico tiene comunidades rurales con acceso limitado. Teleoftalmología + IA screening de RD es una oportunidad directa.</p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-ai">IA CXL</span> Crosslinking Personalizado con IA</h3>
+<p>En 2026, la planificación de crosslinking asistida por IA representa un avance, con métodos personalizados que mejoran la claridad visual, especialmente útil para pacientes con formas corneales irregulares. Los algoritmos optimizan la distribución de energía UV según la topografía corneal individual. <a class="src-link" href="https://www.laxminetralaya.com/blog-details/top-new-treatments-for-keratoconus-in-2026-what-s-changing-in-eye-care-" target="_blank">→ Laxmi Netralaya</a></p>
+</div>
+</div>
+
+<\!-- ==================== CLÍNICA Y CIRUGÍA ==================== -->
+<div class="tab-content" id="clinica">
+<h2 class="section-title">Innovaciones Clínicas y Quirúrgicas</h2>
+
+<div class="card fda">
+<h3><span class="tag tag-fda">CATARATA</span> TECNIS PureSee EDOF IOL — FDA Aprobado</h3>
+<p>J&J Vision anunció aprobación FDA del TECNIS PureSee, IOL de profundidad de foco extendida para cirugía de catarata (marzo 2026). Diseñado para mejorar claridad visual minimizando perturbaciones visuales, aborda tanto la pérdida visual por catarata como la presbicia. <a class="src-link" href="https://eyewire.news/news/johnson-johnson-announces-fda-approval-of-tecni-puresee-iol-for-cataract-surgery" target="_blank">→ Eyewire+</a></p>
+</div>
+
+<div class="card fda">
+<h3><span class="tag tag-fda">CATARATA</span> Clareon PanOptix Pro — Nueva Generación Trifocal</h3>
+<p>Alcon lanza el Clareon PanOptix Pro con tecnología óptica ENLIGHTEN NXT, que mejora la eficiencia de transmisión lumínica, resultando en visión más clara y menos dispersión de luz que el PanOptix anterior. <a class="src-link" href="https://www.northtorontoeyecare.com/cataract/4-surprising-facts-about-the-new-panoptix-pro-lens/" target="_blank">→ North Toronto Eye Care</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-device">CATARATA</span> Light Adjustable Lens (RxSight LAL)</h3>
+<p>El LAL de RxSight sigue siendo un avance destacado — permite ajuste post-quirúrgico mediante tratamientos UV breves, optimizando la prescripción basada en la curación real del ojo, no solo en mediciones preoperatorias. <a class="src-link" href="https://coheneyeinstitute.com/blog/2026-cataract-lenses/" target="_blank">→ Cohen Eye Institute</a></p>
+</div>
+
+<div class="card fda">
+<h3><span class="tag tag-fda">CÓRNEA</span> Epioxa™ — Crosslinking Sin Incisión</h3>
+<p>Primer terapia tópica FDA-aprobada para queratocono sin remoción de epitelio corneal. Terapia tópica enriquecida con oxígeno, bioactivada por UV (riboflavina 5'-fosfato de sodio). Aprobada por 2 ensayos Phase 3 pivotales con >400 pacientes. Mejora significativa en curvatura corneal máxima. Disponible comercialmente Q1 2026. <a class="src-link" href="https://www.ophthalmologytimes.com/view/incision-free-cross-linking-marks-a-new-era-for-keratoconus-care" target="_blank">→ Ophthalmology Times</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-device">CÓRNEA / ASCRS 2026</span> Nuevas Opciones para Córneas Irregulares</h3>
+<p>ASCRS 2026 (Washington DC, abril 10-13) presentó avances en manejo de queratocono incluyendo ICRS de nueva generación con materiales flexibles combinados con CXL para resultados más fuertes y predecibles. <a class="src-link" href="https://mediamice.com/keratoconus-refractive-options-irregular-corneas-ascrs-2026/" target="_blank">→ Media MICE / ASCRS 2026</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-device">GLAUCOMA</span> Nueva Generación MIGS 2026</h3>
+<p><strong>MINT</strong> (minimally invasive nasal trabeculostomy): trabeculostomías múltiples sin penetración escleral completa (600µm vs 2000µm). <strong>eyeFlow microstent</strong>: híbrido de drug-eluting + canal stenting, ~12 meses de liberación sostenida. Láser MIGS: ELIOS excímer (Bausch+Lomb), ViaLase femtosegundo, y plataformas picosegundo en investigación. <a class="src-link" href="https://www.glaucomaphysician.net/issues/2026/march/ags14/" target="_blank">→ Glaucoma Physician</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-device">GLAUCOMA</span> Drug Delivery de Larga Duración</h3>
+<p><strong>iDose TREX</strong> (Glaukos): implante travoprost con reservorio expandido para duración extendida. <strong>BIM-IOL</strong> (SpyGlass): sistema IOL + haptics con reservorios de bimatoprost, liberación ~3 años post-cirugía de catarata. <strong>GLK-311</strong> (Glaukos): plataforma transdérmica iLution de entrega por párpado. <a class="src-link" href="https://www.reviewofophthalmology.com/article/the-2026-glaucoma-pipeline" target="_blank">→ Review of Ophthalmology</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-device">GLAUCOMA</span> Neuroprotección Emergente</h3>
+<p>Más allá de reducir PIO, están emergiendo terapias neuroprotectoras. Bausch + Lomb investiga fármacos diseñados para reducir PIO Y proporcionar neuroprotección simultáneamente, un cambio de paradigma en el manejo del glaucoma. <a class="src-link" href="https://www.ophthalmologytimes.com/view/innovations-in-glaucoma-poised-for-breakthrough-in-2026-and-what-might-hold-the-back-" target="_blank">→ Ophthalmology Times</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-gene">RETINA</span> Terapia Génica: Gene Therapy Shift</h3>
+<p>Tres candidatos en ensayos clínicos para nAMD: <strong>4D-150</strong> (vector evolucionado, aflibercept + RNAi anti-VEGF-C), <strong>ADVM-022</strong> (Adverum), <strong>ABBV-RGX-314</strong> (AAV8). Resultados Phase 3 esperados 2026-2027. <strong>Ixo-vec</strong> redujo inyecciones anti-VEGF 80% a 2 años en Phase 1 OPTIC. <a class="src-link" href="https://www.hcplive.com/view/intravitreal-gene-therapy-for-wet-amd" target="_blank">→ HCPLive</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-gene">RETINA</span> CRISPR-Cas13 RNA Editing — HG202</h3>
+<p>HG202 utiliza terapia de edición de RNA con CRISPR-Cas13 para eliminar la expresión de mRNA de VEGF-A. Es el primer tratamiento con CRISPR/Cas13 en alcanzar ensayos clínicos. Ensayo Phase 1 BRIGHT programado para iniciar en 2026. <a class="src-link" href="https://www.modernretina.com/view/the-gene-therapy-shift-a-closer-look-at-the-science-powering-next-generation-retinal-treatments" target="_blank">→ Modern Retina</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-trial">RETINA</span> Tarcocimab / KSI-301 — Phase 3 GLOW2</h3>
+<p>Kodiak Sciences espera datos topline del Phase 3 GLOW2 para tarcocimab (KSI-301) en retinopatía diabética en Q1 2026. Además, implantes EC-104 en estudio Phase 2 vs Ozurdex para RD/EMD. <a class="src-link" href="https://www.retinalphysician.com/issues/2026/january/clinical-trial-update/" target="_blank">→ Retinal Physician</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-new">REFRACTIVA</span> Evolución SMILE, SILK y Ray-Tracing</h3>
+<p>SMILE gana tracción como alternativa minimamente invasiva (incisión <4mm). Plataforma Schwind Amaris 1050RS ofrece tratamientos ultra-precisos y rápidos. Tecnología ray-tracing crea modelo 3D virtual del ojo para tratamiento personalizado. WaveLight Plus logra 20/12.5 o mejor en casi todos los pacientes vs 82% con SMILE Pro. <a class="src-link" href="https://libertylasereye.com/revolutionary-eye-surgery-technologies-expected-to-arrive-in-2026/" target="_blank">→ Liberty Laser Eye</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-trial">OCULOPLÁSTICA/TED</span> TEPEZZA Subcutáneo — Phase 3 Positivo</h3>
+<p>Amgen reportó resultados topline positivos del Phase 3 de TEPEZZA (teprotumumab) administrado por inyección subcutánea con on-body injector (OBI) para TED activa moderada-severa. Endpoint primario alcanzado: tasa de respuesta de proptosis <strong>77%</strong> en período placebo-controlado de 24 semanas. Eficacia comparable a TEPEZZA IV. >25,000 pacientes tratados mundialmente con formulación IV. <a class="src-link" href="https://www.amgen.com/newsroom/press-releases/2026/04/amgen-announces-positive-topline-phase-3-results-for-subcutaneous-tepezza-in-adults-living-with-moderate-to-severe-active-thyroid-eye-disease" target="_blank">→ Amgen Press Release</a></p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-gene">NEURO-OFT</span> Idebenona para LHON — Revisión Prioritaria FDA</h3>
+<p>Chiesi Global Rare Diseases obtuvo revisión prioritaria FDA para idebenona en LHON. Sería la primera terapia clínicamente probada para LHON en EE.UU. Ya aprobada como Raxone en UE y otros países. Basada en estudios Phase 3 RHODOS y Phase 4 LEROS (85 participantes, 14-65 años). PDUFA: 28 feb 2026. <a class="src-link" href="https://chiesirarediseases.com/media/20250922-idebenone-accepted-by-fda-for-priority-review-for-leber-hereditary-optic-neuropathy-lhon" target="_blank">→ Chiesi Rare Diseases</a></p>
+</div>
+</div>
+
+<\!-- ==================== PIPELINE Y FÁRMACOS ==================== -->
+<div class="tab-content" id="pipeline">
+<h2 class="section-title">Pipeline Farmacéutico y Regulatorio</h2>
+
+<div class="card fda">
+<h3>Aprobaciones FDA Recientes (Q1 2026)</h3>
+<ul>
+<li><span class="tag tag-fda">APROBADO</span> <strong>Yuvezzi</strong> (carbachol 2.75%/brimonidina 0.1%, Tenpoint) — Primera gota dual para presbicia. Once-daily. PDUFA: 28 ene → Aprobado. <a class="src-link" href="https://www.healio.com/news/optometry/20260129/fda-approves-yuvezzi-eye-drop-for-presbyopia" target="_blank">→ Healio</a></li>
+<li><span class="tag tag-fda">APROBADO</span> <strong>TECNIS PureSee EDOF IOL</strong> (J&J Vision) — IOL profundidad de foco extendida. Marzo 2026. <a class="src-link" href="https://eyewire.news/news/johnson-johnson-announces-fda-approval-of-tecni-puresee-iol-for-cataract-surgery" target="_blank">→ Eyewire+</a></li>
+<li><span class="tag tag-fda">APROBADO Q4 2025</span> <strong>Epioxa™</strong> (Glaukos) — CXL sin incisión. Disponible Q1 2026. <a class="src-link" href="https://investors.glaukos.com/news/news-details/2025/Glaukos-Announces-FDA-Approval-of-Epioxa/default.aspx" target="_blank">→ Glaukos</a></li>
+</ul>
+</div>
+
+<div class="card alert">
+<h3>PDUFA Dates Pendientes / Recientes</h3>
+<ul>
+<li><span class="tag tag-trial">PDUFA 28 FEB 2026</span> <strong>Idebenona</strong> (Chiesi) para LHON — revisión prioritaria. <a class="src-link" href="https://www.healio.com/news/ophthalmology/20250923/idebenone-for-leber-hereditary-optic-neuropathy-treatment-receives-pdufa-date" target="_blank">→ Healio</a></li>
+<li><span class="tag tag-new">CRL MARZO 2026</span> <strong>Reproxalap</strong> (Aldeyra) para ojo seco — tercera CRL, FDA no encontró evidencia sustancial de eficacia. <a class="src-link" href="https://www.hcplive.com/view/fda-issues-third-reproxalap-crl-for-dry-eye-disease" target="_blank">→ HCPLive</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Presbicia — Cuatro Gotas FDA-Aprobadas</h3>
+<p>El mercado ahora cuenta con 4 opciones tópicas aprobadas:</p>
+<ul>
+<li><strong>Vuity</strong> (pilocarpina 1.25%, AbbVie) — primera aprobada</li>
+<li><strong>Qlosi</strong> (pilocarpina 0.4%, Orasis) — concentración más baja</li>
+<li><strong>Vizz</strong> (aceclidina 1.44%, Lenz) — mecanismo diferenciado</li>
+<li><strong>Yuvezzi</strong> (carbachol/brimonidina, Tenpoint) — primera dual, duración ~10 horas <a class="src-link" href="https://www.ophthalmologyadvisor.com/news/yuvezzi-approved-as-once-daily-combination-therapy-for-presbyopia/" target="_blank">→ Ophthalmology Advisor</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Pipeline Retina — Terapia Génica y Anti-VEGF</h3>
+<ul>
+<li><span class="tag tag-gene">FASE 3</span> <strong>ABBV-RGX-314</strong> (AbbVie/REGENXBIO) — AAV8 anti-VEGF para nAMD. Resultados esperados 2026-2027. <a class="src-link" href="https://www.ophthalmologyadvisor.com/features/retinal-gene-therapy-options-advance-through-clinical-trial-investigations/" target="_blank">→ Ophthalmology Advisor</a></li>
+<li><span class="tag tag-gene">FASE 2/3</span> <strong>Ixo-vec</strong> (Adverum) — AAV2.7m8 intravítreo, aflibercept. Reducción 80% inyecciones a 2 años.</li>
+<li><span class="tag tag-gene">FASE 2/3</span> <strong>4D-150</strong> (4D Molecular) — vector evolucionado, aflibercept + RNAi anti-VEGF-C.</li>
+<li><span class="tag tag-gene">FASE 1</span> <strong>HG202</strong> — CRISPR-Cas13 RNA editing de VEGF-A. Ensayo BRIGHT iniciando 2026.</li>
+<li><span class="tag tag-trial">FASE 3</span> <strong>Tarcocimab/KSI-301</strong> (Kodiak) — datos GLOW2 esperados Q1 2026. <a class="src-link" href="https://www.retinalphysician.com/issues/2026/january/clinical-trial-update/" target="_blank">→ Retinal Physician</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Pipeline Glaucoma</h3>
+<ul>
+<li><span class="tag tag-device">IMPLANTE</span> <strong>iDose TREX</strong> (Glaukos) — travoprost sostenido, reservorio expandido.</li>
+<li><span class="tag tag-device">IOL+DROGA</span> <strong>BIM-IOL</strong> (SpyGlass) — bimatoprost integrado ~3 años.</li>
+<li><span class="tag tag-device">TRANSDERMAL</span> <strong>GLK-311</strong> (Glaukos) — plataforma iLution por párpado.</li>
+<li><span class="tag tag-device">MIGS LÁSER</span> ELIOS excímer (B+L), ViaLase femtosegundo, picosegundo.</li>
+<li><span class="tag tag-new">NEUROPROTECCIÓN</span> B+L investiga fármacos duales IOP + neuroprotección. <a class="src-link" href="https://glaucomatoday.com/resource/glaucoma-pipeline-2026" target="_blank">→ Glaucoma Today</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Pipeline Ojo Seco</h3>
+<ul>
+<li><span class="tag tag-new">FRACASO</span> <strong>Reproxalap</strong> (Aldeyra) — 3ra CRL. Sin evidencia de eficacia para signos y síntomas.</li>
+<li><span class="tag tag-trial">PROMESA</span> <strong>NOV03</strong> (B+L) — perfluorohexiloctano + omega-3, gotas water-free. Resultados estadísticamente significativos en todos los estudios. <a class="src-link" href="https://www.optometrytimes.com/view/envision-2026-emerging-treatments-pipeline-dry-eye-disease" target="_blank">→ Optometry Times</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Pipeline Neuro-Oftalmología / Enfermedades Raras</h3>
+<ul>
+<li><span class="tag tag-fda">REVISIÓN PRIORITARIA</span> <strong>Idebenona</strong> (Chiesi) — LHON. PDUFA 28 feb 2026. Ya aprobada globalmente como Raxone.</li>
+<li><strong>Luxturna</strong> (Spark/Roche) sigue siendo la única terapia génica FDA-aprobada para IRD (RPE65). A 9 años de su aprobación, ninguna otra terapia génica retiniana ha logrado aprobación FDA. <a class="src-link" href="https://www.reviewofophthalmology.com/article/the-inherited-retinal-disease-pipeline" target="_blank">→ Review of Ophthalmology</a></li>
+</ul>
+</div>
+</div>
+
+<\!-- ==================== MERCADO Y NEGOCIO ==================== -->
+<div class="tab-content" id="mercado">
+<h2 class="section-title">Mercado y Negocio</h2>
+
+<div class="card">
+<h3>Mercado Oftalmológico Global 2026</h3>
+<p>El mercado oftalmológico está valorado en <strong>USD $55.5 mil millones en 2026</strong>, proyectado a alcanzar $92.66B para 2035 (CAGR 5.26%). Norteamérica lidera con adopción creciente de telemedicina y herramientas diagnósticas con IA. <a class="src-link" href="https://market.us/report/ophthalmology-market/" target="_blank">→ Market.us</a></p>
+</div>
+
+<div class="card">
+<h3>M&A y Consolidación — Actividad Fuerte</h3>
+<p>40+ transacciones completadas en 2024-Q1 2025. Compradores estratégicos (McKesson, Cencora) continúan adquiriendo plataformas de retina. Valoraciones: plataformas 10-15× EBITDA, add-ons 6-10× EBITDA. La adquisición de Retina Consultants of America por Cencora ($4.6B, 18.4× EBITDA) marcó un hito. <a class="src-link" href="https://focusbankers.com/ophthalmology-practice-valuation/" target="_blank">→ FOCUS Investment Banking</a></p>
+</div>
+
+<div class="card alert">
+<h3>Reducción de Reembolso — Alerta</h3>
+<p><span class="tag tag-new">ALERTA NEGOCIO</span> Medicare redujo el reembolso de cirugía de catarata en <strong>11% para 2026</strong>. Las prácticas enfrentan exposición significativa a cambios de política de pago. Esto impulsa la diversificación hacia procedimientos premium (IOLs multifocales, EDOF, cirugía refractiva) y servicios de ojo seco. <a class="src-link" href="https://focusbankers.com/ophthalmology-practice-valuation/" target="_blank">→ FOCUS Investment Banking</a></p>
+<p><strong>Implicación para iOPR:</strong> Diversificar ingresos hacia procedimientos premium y participar en ensayos clínicos (revenue por participación) mitiga impacto de recortes Medicare.</p>
+</div>
+
+<div class="card">
+<h3>Private Equity y Factores de Valor</h3>
+<p>PE y consolidadores estratégicos ven oftalmología como uno de los segmentos más atractivos por: economía procedural, vientos demográficos a favor (envejecimiento), y flujos de ingresos auxiliares. Los factores clave de valoración incluyen volumen quirúrgico, mix de pagadores, geografía y adopción de tecnología. <a class="src-link" href="https://www.healthfmv.com/post/ophthalmology-valuation-guide" target="_blank">→ Health FMV</a></p>
+</div>
+
+<div class="card">
+<h3>Tendencias de Crecimiento Digital</h3>
+<p>La integración de IA diagnóstica, telemedicina y herramientas digitales está transformando la entrega de cuidado oftalmológico. Las prácticas que adoptan tecnología tempranamente obtienen ventajas competitivas en eficiencia, outcomes y captación de pacientes. <a class="src-link" href="https://www.databridgemarketresearch.com/reports/north-america-ophthalmology-market" target="_blank">→ Data Bridge Market Research</a></p>
+</div>
+</div>
+
+<\!-- ==================== CONTROL DE MIOPÍA ==================== -->
+<div class="tab-content" id="miopia">
+<h2 class="section-title">Control de Miopía y Presbicia</h2>
+
+<div class="card fda">
+<h3><span class="tag tag-fda">MIOPÍA</span> Essilor Stellest — Primera Lente Spectacle FDA-Autorizada</h3>
+<p>En septiembre 2025, FDA autorizó los lentes Essilor Stellest para corregir miopía (con/sin astigmatismo) y retardar progresión en niños de 6-12 años. Resultados clínicos: <strong>ahorro de 1.75 D de miopía en 5 años</strong>. Tecnología H.A.L.T. (Highly Aspherical Lenslet Target). <a class="src-link" href="https://www.ophthalmologytimes.com/view/the-year-in-optometry-10-stories-that-defined-eye-care-in-2025" target="_blank">→ Ophthalmology Times</a></p>
+</div>
+
+<div class="card">
+<h3>Lentes Spectacle para Control de Miopía — Panorama 2026</h3>
+<p>Tecnologías en uso/desarrollo: DIMS, HALT, DOT (Diffusion Optics), CARE (Cylindrical Annular Refractive Element). Reducción de 40-60% en progresión refractiva y elongación axial vs lentes monofocales convencionales. <a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12610326/" target="_blank">→ PMC/Next-Gen Spectacle Lenses</a></p>
+</div>
+
+<div class="card">
+<h3>Atropina Low-Dose — Estado Actual</h3>
+<p>Atropina 0.01%-0.05% reduce progresión miópica 30-60%, pero limitada por inconsistencias en formulación que afectan eficacia y adherencia. Prescrita off-label extensivamente. Estudios multicéntricos evaluando concentraciones óptimas, seguridad a largo plazo y efecto rebote. <a class="src-link" href="https://www.ophthalmologytimes.com/view/treating-myopia-today-us-focused-treatments-challenges-and-global-insights" target="_blank">→ Ophthalmology Times</a></p>
+</div>
+
+<div class="card">
+<h3>Terapia Combinada: Lentes + Atropina</h3>
+<p>Estudios recientes combinando lentes DIMS/HALT con atropina low-dose (0.0025%) muestran <strong>efectos aditivos</strong> en retardar progresión. Múltiples ensayos multicéntricos en curso evaluando la combinación óptima. Esto podría representar el futuro del tratamiento estándar. <a class="src-link" href="https://www.myopiaprofile.com/articles/three-key-myopia-questions-for-2026" target="_blank">→ Myopia Profile</a></p>
+</div>
+
+<div class="card fda">
+<h3><span class="tag tag-fda">PRESBICIA</span> Cuatro Gotas Aprobadas — Mercado en Expansión</h3>
+<p>El mercado de gotas para presbicia ahora tiene 4 opciones FDA-aprobadas:</p>
+<ul>
+<li><strong>Vuity</strong> (pilocarpina 1.25%, AbbVie)</li>
+<li><strong>Qlosi</strong> (pilocarpina 0.4%, Orasis)</li>
+<li><strong>Vizz</strong> (aceclidina 1.44%, Lenz)</li>
+<li><strong>Yuvezzi</strong> (carbachol/brimonidina 2.75%/0.1%, Tenpoint) — dual-action, once-daily, efecto ~10h, seguimiento de seguridad de 12 meses. <a class="src-link" href="https://www.optometrytimes.com/view/fda-approves-yuvezzi-carbachol-and-brimonidine-tartrate-ophthalmic-solution-2-75-0-1-for-presbyopia" target="_blank">→ Optometry Times</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>TECNIS PureSee EDOF para Presbicia Post-Catarata</h3>
+<p>El nuevo IOL de J&J Vision aborda tanto la catarata como la presbicia con profundidad de foco extendida, minimizando perturbaciones visuales — relevante dado que la población presbítica es también la candidata a cirugía de catarata. <a class="src-link" href="https://eyewire.news/news/johnson-johnson-announces-fda-approval-of-tecni-puresee-iol-for-cataract-surgery" target="_blank">→ Eyewire+</a></p>
+</div>
+</div>
+
+<\!-- ==================== OPORTUNIDADES IIT ==================== -->
+<div class="tab-content" id="iit">
+<h2 class="section-title">Oportunidades para Investigator-Initiated Trials (IITs)</h2>
+
+<div class="card iit" style="background:linear-gradient(135deg,#f3e5f5 0%,#ede7f6 100%)">
+<h3>Ventaja Competitiva Única de iOPR para IITs</h3>
+<p><strong>Jurisdicción FDA + 100% población hispana + 58,000+ pacientes activos = propuesta de valor inigualable.</strong></p>
+<ul>
+<li><strong>Representación hispana crítica:</strong> Solo 3.4% de participantes en ensayos de glaucoma son hispanos. FDA y NIH presionan por diversidad en ensayos clínicos.</li>
+<li><strong>Prevalencia elevada:</strong> DM más alta entre hispanos, RD ~33% en Caribe, glaucoma ~5% (15% en >70 años).</li>
+<li><strong>Volumen de reclutamiento:</strong> Pool de 58K pacientes permite reclutamiento rápido vs centros académicos típicos.</li>
+<li><strong>FDA compliance:</strong> PR es jurisdicción federal, datos aceptados directamente por FDA sin puente regulatorio.</li>
+</ul>
+<p><a class="src-link" href="https://www.nature.com/articles/s41433-025-04145-x" target="_blank">→ Eye (Nature) — Racial Disparities in Ophthalmology Trials</a></p>
+</div>
+
+<div class="card iit">
+<h3><span class="tag tag-iit">IIT #1</span> CARIBE-RD: Screening con IA para Retinopatía Diabética en Población Hispana</h3>
+<p><strong>Concepto:</strong> Estudio prospectivo de validación de algoritmos de IA (IDx-DR o similar) para screening de retinopatía diabética en población 100% hispana/caribeña, comparado con gold-standard (oftalmólogo certificado).</p>
+<p><strong>Justificación:</strong> Los algoritmos de IA fueron entrenados predominantemente en poblaciones caucásicas y asiáticas. La prevalencia de RD en Caribe (~33%) es significativamente más alta que en poblaciones de entrenamiento. Se necesita validación específica.</p>
+<p><strong>Reclutamiento estimado:</strong> 500-1,000 pacientes diabéticos del pool de iOPR (con >58K pacientes, fácilmente alcanzable en 3-6 meses).</p>
+<p><strong>Sponsors potenciales:</strong> Digital Diagnostics (IDx-DR), Google Health (DeepMind), Topcon, ZEISS, Optos. NIH/NEI R01 (disparidades en salud).</p>
+<div class="iit-action"><strong>Acción inmediata:</strong> Contactar Digital Diagnostics (Medical Affairs) y NEI Program Officer para grants de disparidades. Preparar LOI con datos de prevalencia de DM en PR.</div>
+</div>
+
+<div class="card iit">
+<h3><span class="tag tag-iit">IIT #2</span> HISPA-GLAUCOMA: Perfil de Progresión de Glaucoma en Hispanos Caribeños</h3>
+<p><strong>Concepto:</strong> Estudio longitudinal observacional de progresión de glaucoma en población hispana caribeña, utilizando IA predictiva para individualizar terapia. Correlacionar genotipos con fenotipos de progresión.</p>
+<p><strong>Justificación:</strong> Solo 3.4% de participantes en ensayos de glaucoma son hispanos. Prevalencia en PR ~5% (15% en >70 años). No existen cohortes hispanas/caribeñas de progresión de glaucoma publicadas.</p>
+<p><strong>Reclutamiento estimado:</strong> 300-500 pacientes con glaucoma (estimado ~2,900+ en el pool de 58K).</p>
+<p><strong>Sponsors potenciales:</strong> Glaukos (iDose TREX, iStent), Allergan/AbbVie (glaucoma portfolio), Bausch + Lomb (neuroprotección), Aerie (Rhopressa/Rocklatan). NIH/NEI funding para disparidades.</p>
+<div class="iit-action"><strong>Acción inmediata:</strong> Contactar Glaukos IIT Program Manager y AbbVie Eye Care Medical Affairs. Solicitar paquetes de IIT para dispositivos MIGS en población hispana.</div>
+</div>
+
+<div class="card iit">
+<h3><span class="tag tag-iit">IIT #3</span> PR-EDOF: Real-World Outcomes de IOLs Premium en Hispanos</h3>
+<p><strong>Concepto:</strong> Estudio prospectivo comparativo de outcomes visuales con IOLs premium (PanOptix Pro, TECNIS PureSee, LAL) en población hispana. Evaluar satisfacción, aberraciones y resultados refractivos estratificados por biometría ocular hispana/caribeña.</p>
+<p><strong>Justificación:</strong> Las fórmulas de IOL y datos de outcomes se basan primordialmente en biometría caucásica. Diferencias en longitud axial, profundidad de cámara anterior y curvatura corneal en hispanos podrían afectar resultados.</p>
+<p><strong>Reclutamiento estimado:</strong> 200-400 pacientes de cirugía de catarata (iOPR realiza alto volumen).</p>
+<p><strong>Sponsors potenciales:</strong> Alcon (PanOptix Pro), J&J Vision (PureSee), RxSight (LAL). Contactar Medical Affairs de cada empresa.</p>
+<div class="iit-action"><strong>Acción inmediata:</strong> Contactar Alcon Professional Affairs y J&J Vision Medical Affairs para solicitar soporte IIT. Presentar abstract en ASCRS 2027 con datos preliminares de biometría hispana.</div>
+</div>
+
+<div class="card iit">
+<h3><span class="tag tag-iit">IIT #4</span> CARIB-MIGS: Eficacia de MIGS en Pacientes Hispanos con Glaucoma</h3>
+<p><strong>Concepto:</strong> Registro prospectivo multicéntrico de outcomes de MIGS (iStent, Hydrus, Xen, OMNI) en pacientes hispanos caribeños. Incluir subgrupo con dispositivos drug-eluting (eyeFlow, iDose TREX cuando disponible).</p>
+<p><strong>Justificación:</strong> MIGS fueron aprobados basándose en ensayos con mínima representación hispana. La respuesta al drenaje puede variar por características del ángulo y biología del tejido trabecular en diferentes poblaciones.</p>
+<p><strong>Reclutamiento estimado:</strong> 150-300 pacientes combinando cirugía de catarata+MIGS.</p>
+<p><strong>Sponsors potenciales:</strong> Glaukos, Alcon (CyPass successor), Allergan, Sight Sciences. New Horizon Award de AGS.</p>
+<div class="iit-action"><strong>Acción inmediata:</strong> Aplicar a Glaukos IIT Program (deadline rolling). Contactar Sight Sciences IIT coordinator. Preparar protocolo para IRB.</div>
+</div>
+
+<div class="card iit">
+<h3><span class="tag tag-iit">IIT #5</span> PR-EPIOXA: Real-World Adoption de CXL Sin Incisión en Queratocono</h3>
+<p><strong>Concepto:</strong> Estudio observacional de adopción y outcomes de Epioxa (CXL epi-on, Glaukos) en práctica real en PR. Comparar resultados con datos de ensayos pivotales. Evaluar satisfacción del paciente y viabilidad operacional.</p>
+<p><strong>Justificación:</strong> Epioxa acaba de estar disponible comercialmente (Q1 2026). iOPR puede ser early adopter y generar los primeros datos real-world en población hispana.</p>
+<p><strong>Reclutamiento estimado:</strong> 50-100 pacientes con queratocono progresivo.</p>
+<p><strong>Sponsors potenciales:</strong> Glaukos (altamente motivado para datos post-market), JCRS (publicación de interés alto).</p>
+<div class="iit-action"><strong>Acción inmediata:</strong> Contactar Glaukos Medical Affairs inmediatamente para negociar early access y soporte IIT. Glaukos tiene interés comercial directo en datos hispanos de Epioxa.</div>
+</div>
+
+<div class="card iit">
+<h3><span class="tag tag-iit">IIT #6</span> PR-DRY: Disparidades en Ojo Seco y Factores Ambientales en el Caribe</h3>
+<p><strong>Concepto:</strong> Estudio epidemiológico prospectivo de prevalencia, severidad y factores de riesgo de ojo seco en población caribeña hispana. Correlacionar con factores ambientales únicos (humedad tropical, exposición UV, uso de A/C).</p>
+<p><strong>Justificación:</strong> La mayoría de estudios de ojo seco provienen de climas templados. El Caribe tiene factores ambientales únicos. Con la tercera CRL de reproxalap, nuevas terapias necesitan datos en diversas poblaciones.</p>
+<p><strong>Reclutamiento estimado:</strong> 500-1,000 pacientes de la clínica general de iOPR.</p>
+<p><strong>Sponsors potenciales:</strong> Bausch + Lomb (NOV03), Oyster Point/Viatris (tyrvaya), TearLab, TFOS (soporte institucional).</p>
+<div class="iit-action"><strong>Acción inmediata:</strong> Contactar B+L Medical Affairs para IIT con NOV03 en población caribeña. Enviar abstract de concepto al TFOS (Tear Film & Ocular Surface Society).</div>
+</div>
+
+<div class="card iit">
+<h3><span class="tag tag-iit">IIT #7</span> PR-GENÉTICA: Registro de Distrofias Retinianas Hereditarias en Hispanos Caribeños</h3>
+<p><strong>Concepto:</strong> Crear el primer registro genotipo-fenotipo de distrofias retinianas hereditarias (IRD) en población hispana caribeña. Secuenciación genética de pacientes con IRD para identificar mutaciones prevalentes y variantes únicas.</p>
+<p><strong>Justificación:</strong> Las bases de datos genéticas están dominadas por datos europeos. Hispanos caribeños son una población fundadora con posibles variantes únicas. Identificar pacientes elegibles para Luxturna u otras terapias génicas futuras.</p>
+<p><strong>Reclutamiento estimado:</strong> 50-200 pacientes con IRD sospechadas o confirmadas.</p>
+<p><strong>Sponsors potenciales:</strong> Spark Therapeutics/Roche (Luxturna), Foundation Fighting Blindness (grants), NIH/NEI (All of Us genomics), GeneDx, Blueprint Genetics.</p>
+<div class="iit-action"><strong>Acción inmediata:</strong> Contactar Foundation Fighting Blindness para grant de registro. Establecer partnership con laboratorio de genética (GeneDx). Crear protocolo de referral interno para pacientes con sospecha de IRD.</div>
+</div>
+</div>
+
+<\!-- ==================== CONGRESOS ==================== -->
+<div class="tab-content" id="congresos">
+<h2 class="section-title">Calendario de Congresos 2026-2027</h2>
+
+<table class="congress-table">
+<thead>
+<tr><th>Fecha</th><th>Congreso</th><th>Ubicación</th><th>Relevancia iOPR</th></tr>
+</thead>
+<tbody>
+<tr style="background:#fff3e0"><td><strong>Abril 10-13, 2026</strong></td><td><strong>ASCRS 2026</strong></td><td>Washington, DC</td><td>⭐ Cataratas, refractiva, IOLs, CXL. <strong>ESTA SEMANA</strong></td></tr>
+<tr><td>Mayo 3-7, 2026</td><td>ARVO 2026</td><td>Denver, CO</td><td>⭐ Investigación, IITs, networking pharma</td></tr>
+<tr><td>Junio 26-29, 2026</td><td>WOC 2026</td><td>Praga, República Checa</td><td>Internacional, global trends</td></tr>
+<tr><td>Sept 11-15, 2026</td><td>ESCRS 2026</td><td>Londres, UK</td><td>Refractiva, IOLs, cornea</td></tr>
+<tr><td>Oct 10-13, 2026</td><td>AAO 2026</td><td>New Orleans, LA</td><td>⭐ Congreso principal, todas las subespecialidades</td></tr>
+<tr><td>Abril 2-5, 2027</td><td>ASCRS 2027</td><td>San Diego, CA</td><td>Cataratas, refractiva</td></tr>
+<tr><td>TBD, 2027</td><td>ARVO 2027</td><td>TBD</td><td>Investigación</td></tr>
+<tr><td>Oct 30 - Nov 2, 2027</td><td>AAO 2027</td><td>San Francisco, CA</td><td>Congreso principal</td></tr>
+</tbody>
+</table>
+
+<div class="card alert" style="margin-top:1.5rem">
+<h3>Acción Inmediata: ASCRS 2026 — Esta Semana</h3>
+<p><strong>ASCRS está ocurriendo AHORA en Washington, DC (abril 10-13).</strong> Temas clave esta semana:</p>
+<ul>
+<li>Nuevas opciones para córneas irregulares y queratocono (Epioxa, ICRS nueva generación)</li>
+<li>IOLs premium: PanOptix Pro, PureSee, LAL comparaciones</li>
+<li>MIGS updates y combinaciones con cirugía de catarata</li>
+<li>Innovaciones en cirugía refractiva (SMILE vs WaveLight Plus)</li>
+</ul>
+<p><a class="src-link" href="https://annualmeeting.ascrs.org/" target="_blank">→ ASCRS Annual Meeting</a></p>
+</div>
+
+<div class="card">
+<h3>Próximo Congreso Urgente: ARVO 2026 (Mayo 3-7, Denver)</h3>
+<p>ARVO es el congreso más importante para investigación oftalmológica y el mejor espacio para networking con pharma/CROs para IITs. <strong>Deadline para registro temprano próximo.</strong> Contactar Medical Affairs de sponsors potenciales ANTES del congreso para agendar reuniones.</p>
+<p><a class="src-link" href="https://www.aao.org/about/related-organizations/subspecialty-society-meetings" target="_blank">→ AAO Meeting Calendar</a></p>
+</div>
+</div>
+
+<\!-- ==================== FUENTES ==================== -->
+<div class="tab-content" id="fuentes">
+<h2 class="section-title">Fuentes Consultadas</h2>
+
+<div class="card">
+<h3>Journals Peer-Reviewed</h3>
+<ul>
+<li><a class="src-link" href="https://www.sciencedirect.com/science/article/pii/S1350946225000473" target="_blank">ScienceDirect — AI in Ophthalmology: Progress, Challenges, Ethics</a></li>
+<li><a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12587209/" target="_blank">PMC — AI in Ophthalmology: Practical Applications & Real-World Deployment</a></li>
+<li><a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12610326/" target="_blank">PMC — Next-Gen Spectacle Lenses for Myopia Control</a></li>
+<li><a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12448128/" target="_blank">PMC — IMI Interventions for Controlling Myopia 2025</a></li>
+<li><a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11540653/" target="_blank">PMC — Home-Monitoring OCT in Teleophthalmology</a></li>
+<li><a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10994322/" target="_blank">PLOS ONE — DR Prevalence in Latin America and Caribbean</a></li>
+<li><a class="src-link" href="https://www.nature.com/articles/s41433-025-04145-x" target="_blank">Eye (Nature) — Racial Disparities in Ophthalmology Clinical Trials</a></li>
+<li><a class="src-link" href="https://www.nature.com/articles/s41746-025-01954-y" target="_blank">npj Digital Medicine — AI in Ophthalmic Drug Discovery</a></li>
+<li><a class="src-link" href="https://iovs.arvojournals.org/article.aspx?articleid=2791262" target="_blank">IOVS — Gene Therapy for Retinal Degenerative Diseases</a></li>
+<li><a class="src-link" href="https://link.springer.com/article/10.1007/s40291-024-00722-0" target="_blank">Molecular Diagnosis & Therapy — Gene Therapies in Clinical Development for Retinal Disorders</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Publicaciones de Industria</h3>
+<ul>
+<li><a class="src-link" href="https://www.ophthalmologytimes.com/view/ophthalmology-pipeline-watch-key-trial-results-and-pdufa-dates-for-q1-2026" target="_blank">Ophthalmology Times — Pipeline Watch Q1 2026</a></li>
+<li><a class="src-link" href="https://europe.ophthalmologytimes.com/view/q1-2026-happenings-in-ophthalmology-major-highlights" target="_blank">Ophthalmology Times Europe — Q1 2026 Highlights</a></li>
+<li><a class="src-link" href="https://www.reviewofophthalmology.com/article/the-2026-glaucoma-pipeline" target="_blank">Review of Ophthalmology — 2026 Glaucoma Pipeline</a></li>
+<li><a class="src-link" href="https://glaucomatoday.com/resource/glaucoma-pipeline-2026" target="_blank">Glaucoma Today — Glaucoma Pipeline 2026</a></li>
+<li><a class="src-link" href="https://www.glaucomaphysician.net/issues/2026/march/ags14/" target="_blank">Glaucoma Physician — Evolving MIGS Pipeline</a></li>
+<li><a class="src-link" href="https://www.modernretina.com/view/the-gene-therapy-shift-a-closer-look-at-the-science-powering-next-generation-retinal-treatments" target="_blank">Modern Retina — Gene Therapy Shift</a></li>
+<li><a class="src-link" href="https://www.retinalphysician.com/issues/2026/january/clinical-trial-update/" target="_blank">Retinal Physician — Clinical Trial Update Jan 2026</a></li>
+<li><a class="src-link" href="https://www.optometrytimes.com/view/envision-2026-emerging-treatments-pipeline-dry-eye-disease" target="_blank">Optometry Times — EnVision 2026: Dry Eye Pipeline</a></li>
+<li><a class="src-link" href="https://www.ophthalmologyadvisor.com/news/fda-drug-approval-decisions-expected-in-january-2026/" target="_blank">Ophthalmology Advisor — FDA Decisions Jan 2026</a></li>
+<li><a class="src-link" href="https://glance.eyesoneyecare.com/stories/2026-01-02/what-to-keep-an-eye-on-in-2026/" target="_blank">Eyes on Eyecare — What to Watch in 2026</a></li>
+<li><a class="src-link" href="https://www.myopiaprofile.com/articles/three-key-myopia-questions-for-2026" target="_blank">Myopia Profile — Three Key Questions for 2026</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Comunicados Corporativos y Regulatorios</h3>
+<ul>
+<li><a class="src-link" href="https://www.amgen.com/newsroom/press-releases/2026/04/amgen-announces-positive-topline-phase-3-results-for-subcutaneous-tepezza-in-adults-living-with-moderate-to-severe-active-thyroid-eye-disease" target="_blank">Amgen — TEPEZZA SC Phase 3 Results (Abril 2026)</a></li>
+<li><a class="src-link" href="https://investors.glaukos.com/news/news-details/2025/Glaukos-Announces-FDA-Approval-of-Epioxa/default.aspx" target="_blank">Glaukos — Epioxa FDA Approval</a></li>
+<li><a class="src-link" href="https://eyewire.news/news/johnson-johnson-announces-fda-approval-of-tecni-puresee-iol-for-cataract-surgery" target="_blank">J&J Vision — TECNIS PureSee Approval</a></li>
+<li><a class="src-link" href="https://chiesirarediseases.com/media/20250922-idebenone-accepted-by-fda-for-priority-review-for-leber-hereditary-optic-neuropathy-lhon" target="_blank">Chiesi — Idebenone Priority Review for LHON</a></li>
+<li><a class="src-link" href="https://www.accessdata.fda.gov/drugsatfda_docs/label/2026/220142s000lbl.pdf" target="_blank">FDA — Yuvezzi Prescribing Information</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Mercado y Negocio</h3>
+<ul>
+<li><a class="src-link" href="https://market.us/report/ophthalmology-market/" target="_blank">Market.us — Ophthalmology Market Size & CAGR</a></li>
+<li><a class="src-link" href="https://focusbankers.com/ophthalmology-practice-valuation/" target="_blank">FOCUS Investment Banking — Ophthalmology Practice Valuation 2026</a></li>
+<li><a class="src-link" href="https://www.healthfmv.com/post/ophthalmology-valuation-guide" target="_blank">Health FMV — Ophthalmology Valuation & M&A Trends</a></li>
+<li><a class="src-link" href="https://www.databridgemarketresearch.com/reports/north-america-ophthalmology-market" target="_blank">Data Bridge — North America Ophthalmology Market</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Epidemiología y Disparidades</h3>
+<ul>
+<li><a class="src-link" href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0296998" target="_blank">PLOS ONE — DR Prevalence in Latin America/Caribbean</a></li>
+<li><a class="src-link" href="https://www.nei.nih.gov/research-and-training/research-news/statement-prevalence-diabetic-retinopathy-and-age-related-macular-degeneration-among-hispaniclatino" target="_blank">NEI — DR & AMD Prevalence in Hispanic/Latino</a></li>
+<li><a class="src-link" href="https://www.sciencedirect.com/science/article/pii/S2451865425000146" target="_blank">ScienceDirect — Latino Willingness to Participate in Clinical Trials</a></li>
+<li><a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10654370/" target="_blank">PMC — Diversity in US Ophthalmology Clinical Trials</a></li>
+</ul>
+</div>
+</div>
+
+</div><\!-- /container -->
+
+<div class="footer">
+<p>Instituto de Ojos de Puerto Rico — Reporte generado automáticamente el 13 de abril de 2026</p>
+<p>Fuentes: JAMA Ophthalmology, Ophthalmology (AAO), AJO, BJO, IOVS, Ophthalmology Times, Review of Ophthalmology, Modern Retina, Retinal Physician, Glaucoma Today, Eyewire+, PubMed/PMC, ClinicalTrials.gov, FDA.gov</p>
+<p style="margin-top:.5rem;opacity:.7">Este reporte es para uso interno. Las oportunidades IIT requieren validación con IRB y Medical Affairs de sponsors.</p>
+</div>
 
 <script>
-  function showTab(tabId, btn) {
-    document.querySelectorAll('.tab-content').forEach(function(el){ el.classList.remove('active'); });
-    document.querySelectorAll('.tab-btn').forEach(function(el){ el.classList.remove('active'); });
-    document.getElementById('tab-' + tabId).classList.add('active');
-    if(btn) btn.classList.add('active');
-  }
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-tabs button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const btns=document.querySelectorAll('.nav-tabs button');
+  const tabs=['resumen','ia','clinica','pipeline','mercado','miopia','iit','congresos','fuentes'];
+  const idx=tabs.indexOf(id);
+  if(idx>=0)btns[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 </script>
 </body>
 </html>
